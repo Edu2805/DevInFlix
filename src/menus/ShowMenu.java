@@ -26,7 +26,7 @@ public class ShowMenu implements FuncoesDoMenu {
 		Scanner sc = new Scanner(System.in);
 
 		List<PessoaFisica> cadastroUsuarios = new ArrayList<>();
-		List<FilmeSugestaoUsuario> listaSugestoesDoUsuario = new ArrayList<>();
+		Set<FilmeSugestaoUsuario> listaSugestoesDoUsuario = new LinkedHashSet<FilmeSugestaoUsuario>();
 		GenerosMaisAssistidosUsuarios generosMaisUsuarios = new GenerosMaisAssistidosUsuarios();
 		GenerosMaisAssistidosPlataforma generosMaisPlataforma = new GenerosMaisAssistidosPlataforma();
 
@@ -97,6 +97,8 @@ public class ShowMenu implements FuncoesDoMenu {
 		int independentesPlataforma;
 		int suspensePlataforma;
 		int outrosPlataforma;
+		
+		
 
 		boolean pagamento = false;
 
@@ -325,11 +327,10 @@ public class ShowMenu implements FuncoesDoMenu {
 				listaSugestoesDoUsuario.add(sugestoesDeUsuarios);
 				System.out.println("Filmes sugeridos pelos nossos usuários\n");
 				
-				for (int i = 0; i < listaSugestoesDoUsuario.size(); i++) {
-					String filmesSugeridos = listaSugestoesDoUsuario.get(i).getNomeFilmeSugerido();
-					System.out.println((i + 1) + "- " + filmesSugeridos);
+				
+				for (FilmeSugestaoUsuario filmePlataforma : listaSugestoesDoUsuario) {
+					System.out.println(filmePlataforma.getNomeFilmeSugerido());
 					
-					//Tratar possível repeticao de filmes
 				}
 				
 				System.out.println("\n----------------------------------------------------------------------------\n");
