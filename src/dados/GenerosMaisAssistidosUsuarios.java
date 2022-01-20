@@ -3,7 +3,7 @@ package dados;
 import java.util.List;
 import java.util.Objects;
 
-import filmes.Filme;
+import filmes.FilmePlataforma;
 import generos.Genero;
 import lombok.Data;
 import usuarios.PessoaFisica;
@@ -21,7 +21,7 @@ public class GenerosMaisAssistidosUsuarios {
 	int contSuspense;
 	int contOutros;
 
-	public void generosMaisAssistidosUsuario(List<Filme> filmes, List<PessoaFisica> pessoaFisica, int escolhaFilme,
+	public void generosMaisAssistidosUsuario(List<FilmePlataforma> filmes, List<PessoaFisica> pessoaFisica, int escolhaFilme,
 			int secaoUsuario) {
 
 		if (filmes.get(escolhaFilme).getGenero() == Genero.ACAO.getDescricao()) {

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
-import filmes.Filme;
+import filmes.FilmePlataforma;
 import generos.Genero;
 import interatividades.CurtirDescurtir;
 import interatividades.EscolheFilme;
@@ -26,7 +26,7 @@ public class PessoaFisica extends Pessoa implements CurtirDescurtir, Recomendaca
 	public void usuarioRecomenda() {
 		Scanner sc = new Scanner(System.in);
 
-		List<Filme> listaFilmes = new ArrayList<>();
+		List<FilmePlataforma> listaFilmes = new ArrayList<>();
 
 		final LocalDate start = LocalDate.now();
 		//Quando houver banco de dados, usar plusdays...
@@ -122,7 +122,7 @@ public class PessoaFisica extends Pessoa implements CurtirDescurtir, Recomendaca
 			String link = sc.nextLine();
 			System.out.println("----------------------------------------------------------------------------");
 
-			Filme filmes = new Filme(nomeFilme, sinopse, generoRecomendado, link);
+			FilmePlataforma filmes = new FilmePlataforma(nomeFilme, sinopse, generoRecomendado, link);
 
 			listaFilmes.add(filmes);
 
@@ -135,7 +135,7 @@ public class PessoaFisica extends Pessoa implements CurtirDescurtir, Recomendaca
 	}
 
 	@Override
-	public void escolhaDoFilme(List<Filme> filmes, int escolha) {
+	public void escolhaDoFilme(List<FilmePlataforma> filmes, int escolha) {
 		Scanner sc = new Scanner(System.in);
 
 		int escolhaFilme = 0;

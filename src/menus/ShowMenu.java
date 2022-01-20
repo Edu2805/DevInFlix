@@ -12,9 +12,11 @@ import dados.GenerosMaisAssistidosPlataforma;
 import dados.GenerosMaisAssistidosUsuarios;
 import dados.SomaGenerosPlataforma;
 import dados.SomaGenerosUsuarios;
-import filmes.Filme;
+import filmes.FilmePlataforma;
+import filmes.FilmeSugestaoUsuario;
 import generos.Genero;
 import interatividades.Interacao;
+import interatividades.SugestaoUsuarios;
 import usuarios.PessoaFisica;
 
 public class ShowMenu implements FuncoesDoMenu {
@@ -24,30 +26,31 @@ public class ShowMenu implements FuncoesDoMenu {
 		Scanner sc = new Scanner(System.in);
 
 		List<PessoaFisica> cadastroUsuarios = new ArrayList<>();
+		List<FilmeSugestaoUsuario> listaSugestoesDoUsuario = new ArrayList<>();
 		GenerosMaisAssistidosUsuarios generosMaisUsuarios = new GenerosMaisAssistidosUsuarios();
 		GenerosMaisAssistidosPlataforma generosMaisPlataforma = new GenerosMaisAssistidosPlataforma();
 
 		System.out.println("########################## DEVINFLIX ##########################");
 		System.out.println("\n################## FILMES E SÉRIES EM CARTAZ ##################\n");
 
-		Set<Filme> listaDeFilmes = new LinkedHashSet<Filme>();
+		Set<FilmePlataforma> listaDeFilmes = new LinkedHashSet<FilmePlataforma>();
 
-		Filme exterminadorDoFuturo = new Filme("O Exterminador do Futuro", "Robô disfarçado de humano ",
+		FilmePlataforma exterminadorDoFuturo = new FilmePlataforma("O Exterminador do Futuro", "Robô disfarçado de humano ",
 				Genero.ACAO.getDescricao(), "https://youtu.be/OFCE1ppomCg");
 
-		Filme clubeDaLuta = new Filme("Clube da luta", "Carinha que se revolta com o sistema ",
+		FilmePlataforma clubeDaLuta = new FilmePlataforma("Clube da luta", "Carinha que se revolta com o sistema ",
 				Genero.AVENTURA.getDescricao(), "https://youtu.be/Fs0-4NLSO2Y");
 
-		Filme oLoboDeWallStreet = new Filme("O Lobo de Wall Street", "Vendedor vendendo coisas que não existem ",
+		FilmePlataforma oLoboDeWallStreet = new FilmePlataforma("O Lobo de Wall Street", "Vendedor vendendo coisas que não existem ",
 				Genero.ACAO.getDescricao(), "https://youtu.be/PoSCUsNQVtw");
 
-		Filme ameliePoulain = new Filme("Amelie Poulain", "Filme francês fofinho ", Genero.ROMANCE.getDescricao(),
+		FilmePlataforma ameliePoulain = new FilmePlataforma("Amelie Poulain", "Filme francês fofinho ", Genero.ROMANCE.getDescricao(),
 				"https://youtu.be/HUECWi5pX7o");
 
-		Filme crepusculo = new Filme("Crepúsculo", "Bela, o Lobo quente e o Vampiro gelado ",
+		FilmePlataforma crepusculo = new FilmePlataforma("Crepúsculo", "Bela, o Lobo quente e o Vampiro gelado ",
 				Genero.ROMANCE.getDescricao(), "https://youtu.be/Ru8THEGdcEU");
 
-		Filme harryPotter = new Filme("Harry Potter", "Pequeno bruxo que só se ferra ", Genero.AVENTURA.getDescricao(),
+		FilmePlataforma harryPotter = new FilmePlataforma("Harry Potter", "Pequeno bruxo que só se ferra ", Genero.AVENTURA.getDescricao(),
 				"https://youtu.be/VyHV0BRtdxo");
 
 		listaDeFilmes.add(exterminadorDoFuturo);
@@ -57,7 +60,7 @@ public class ShowMenu implements FuncoesDoMenu {
 		listaDeFilmes.add(crepusculo);
 		listaDeFilmes.add(harryPotter);
 
-		for (Filme filme : listaDeFilmes) {
+		for (FilmePlataforma filme : listaDeFilmes) {
 			System.out.println(filme.getNome());
 		}
 
@@ -193,7 +196,7 @@ public class ShowMenu implements FuncoesDoMenu {
 				System.out.println("Seja bem-vindo ao DevInFlix, abaixo você pode conferir nosso catálogo de filmes\n");
 
 				int indiceFilme = 0;
-				for (Filme filme : listaDeFilmes) {
+				for (FilmePlataforma filme : listaDeFilmes) {
 					String nomeFilme = filme.getNome();
 					String sinopse = filme.getSinopse();
 					String generoFilme = filme.getGenero();
@@ -206,7 +209,7 @@ public class ShowMenu implements FuncoesDoMenu {
 						"--------------------------------------------------------------------------------------------------");
 
 				// Abre lista para escolha do filme
-				List<Filme> escolhaFilmesDaLista = new ArrayList<>();
+				List<FilmePlataforma> escolhaFilmesDaLista = new ArrayList<>();
 
 				escolhaFilmesDaLista.add(exterminadorDoFuturo);
 				escolhaFilmesDaLista.add(clubeDaLuta);
@@ -314,11 +317,24 @@ public class ShowMenu implements FuncoesDoMenu {
 				}
 
 				// Sugestão de filme usuário
-				Interacao sugestaoFilmeUsuarios = new Interacao();
-				sugestaoFilmeUsuarios.sugestaoDoUuario();
-
-				// Criar um método para armazenar a recomendacao
-
+				Interacao exibeCampoSugestaoUsuario = new Interacao();
+				exibeCampoSugestaoUsuario.sugestaoDoUsuario();
+				String nomeSugestao = exibeCampoSugestaoUsuario.getNomeFilmeSugerido();
+				
+				FilmeSugestaoUsuario sugestoesDeUsuarios = new FilmeSugestaoUsuario(nomeSugestao);
+				listaSugestoesDoUsuario.add(sugestoesDeUsuarios);
+				System.out.println("Filmes sugeridos pelos nossos usuários\n");
+				
+				for (int i = 0; i < listaSugestoesDoUsuario.size(); i++) {
+					String filmesSugeridos = listaSugestoesDoUsuario.get(i).getNomeFilmeSugerido();
+					System.out.println((i + 1) + "- " + filmesSugeridos);
+					
+					//Tratar possível repeticao de filmes
+				}
+				
+				System.out.println("\n----------------------------------------------------------------------------\n");
+				
+				//Trata os generos mais assistidos pelos usuários
 				acaoUsuario = generosMaisUsuarios.getContAcao();
 				aventuraUsuario = generosMaisUsuarios.getContAventura();
 				romanceUsuario = generosMaisUsuarios.getContRomance();
@@ -329,6 +345,7 @@ public class ShowMenu implements FuncoesDoMenu {
 				suspenseUsuario = generosMaisUsuarios.getContSuspense();
 				outrosUsuario = generosMaisUsuarios.getContOutros();
 
+				//Trata os generos mais assistidos da plataforma
 				acaoPlataforma = generosMaisPlataforma.getContAcao();
 				aventuraPlataforma = generosMaisPlataforma.getContAventura();
 				romancePlataforma = generosMaisPlataforma.getContRomance();
