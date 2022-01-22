@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
+import dados.DadosCurtidasDescurtidas;
 import dados.GenerosMaisAssistidosPlataforma;
 import dados.GenerosMaisAssistidosUsuarios;
 import dados.SomaGenerosPlataforma;
@@ -27,31 +28,36 @@ public class ShowMenu implements FuncoesDoMenu {
 
 		List<PessoaFisica> cadastroUsuarios = new ArrayList<>();
 		Set<FilmeSugestaoUsuario> listaSugestoesDoUsuario = new LinkedHashSet<FilmeSugestaoUsuario>();
+		List<String> armazenaNomeUsuario = new ArrayList<>();
+		List<String> armazenaNomeFilme = new ArrayList<>();
 		GenerosMaisAssistidosUsuarios generosMaisUsuarios = new GenerosMaisAssistidosUsuarios();
 		GenerosMaisAssistidosPlataforma generosMaisPlataforma = new GenerosMaisAssistidosPlataforma();
+		DadosCurtidasDescurtidas relatorioCurtidasDescurtidas = new DadosCurtidasDescurtidas();
+		
 
 		System.out.println("########################## DEVINFLIX ##########################");
 		System.out.println("\n################## FILMES E SÉRIES EM CARTAZ ##################\n");
 
 		Set<FilmePlataforma> listaDeFilmes = new LinkedHashSet<FilmePlataforma>();
 
-		FilmePlataforma exterminadorDoFuturo = new FilmePlataforma("O Exterminador do Futuro", "Robô disfarçado de humano ",
-				Genero.ACAO.getDescricao(), "https://youtu.be/OFCE1ppomCg");
+		FilmePlataforma exterminadorDoFuturo = new FilmePlataforma("O Exterminador do Futuro",
+				"Robô disfarçado de humano ", Genero.ACAO.getDescricao(), "https://youtu.be/OFCE1ppomCg");
 
 		FilmePlataforma clubeDaLuta = new FilmePlataforma("Clube da luta", "Carinha que se revolta com o sistema ",
 				Genero.AVENTURA.getDescricao(), "https://youtu.be/Fs0-4NLSO2Y");
 
-		FilmePlataforma oLoboDeWallStreet = new FilmePlataforma("O Lobo de Wall Street", "Vendedor vendendo coisas que não existem ",
-				Genero.ACAO.getDescricao(), "https://youtu.be/PoSCUsNQVtw");
+		FilmePlataforma oLoboDeWallStreet = new FilmePlataforma("O Lobo de Wall Street",
+				"Vendedor vendendo coisas que não existem ", Genero.ACAO.getDescricao(),
+				"https://youtu.be/PoSCUsNQVtw");
 
-		FilmePlataforma ameliePoulain = new FilmePlataforma("Amelie Poulain", "Filme francês fofinho ", Genero.ROMANCE.getDescricao(),
-				"https://youtu.be/HUECWi5pX7o");
+		FilmePlataforma ameliePoulain = new FilmePlataforma("Amelie Poulain", "Filme francês fofinho ",
+				Genero.ROMANCE.getDescricao(), "https://youtu.be/HUECWi5pX7o");
 
 		FilmePlataforma crepusculo = new FilmePlataforma("Crepúsculo", "Bela, o Lobo quente e o Vampiro gelado ",
 				Genero.ROMANCE.getDescricao(), "https://youtu.be/Ru8THEGdcEU");
 
-		FilmePlataforma harryPotter = new FilmePlataforma("Harry Potter", "Pequeno bruxo que só se ferra ", Genero.AVENTURA.getDescricao(),
-				"https://youtu.be/VyHV0BRtdxo");
+		FilmePlataforma harryPotter = new FilmePlataforma("Harry Potter", "Pequeno bruxo que só se ferra ",
+				Genero.AVENTURA.getDescricao(), "https://youtu.be/VyHV0BRtdxo");
 
 		listaDeFilmes.add(exterminadorDoFuturo);
 		listaDeFilmes.add(clubeDaLuta);
@@ -97,10 +103,12 @@ public class ShowMenu implements FuncoesDoMenu {
 		int independentesPlataforma;
 		int suspensePlataforma;
 		int outrosPlataforma;
-		
-		
 
 		boolean pagamento = false;
+		int escolhaFilme = 0;
+
+		// Verificar se cabe utilizacao
+		int quantidadeVezesEscolhaFilme = 0;
 
 		while (entrarMenu != 2) {
 
@@ -180,7 +188,7 @@ public class ShowMenu implements FuncoesDoMenu {
 					pagamento = true;
 					stopWhileMenuPagamento = false;
 					break;
-					
+
 				case 4:
 					pagamento = false;
 					stopWhileMenuPagamento = false;
@@ -221,7 +229,6 @@ public class ShowMenu implements FuncoesDoMenu {
 				escolhaFilmesDaLista.add(harryPotter);
 
 				boolean stopWhileNovoFilme = false;
-				int escolhaFilme = 0;
 				while (!stopWhileNovoFilme) {
 					System.out.print("Olá " + listaDeUsuarios.getNomeCompleto()
 							+ ", escolha um dos filmes para você assistir: ");
@@ -233,6 +240,7 @@ public class ShowMenu implements FuncoesDoMenu {
 					generosMaisPlataforma.generosMaisAssistidosPlataforma(escolhaFilmesDaLista, cadastroUsuarios,
 							escolhaFilme, secaoUsuario);
 
+					quantidadeVezesEscolhaFilme++;
 					System.out.println("\nDeseja escolher mais algum filme?1- SIM, 2- NÃO");
 					System.out.print("-->");
 					int maisFilmes = sc.nextInt();
@@ -322,20 +330,19 @@ public class ShowMenu implements FuncoesDoMenu {
 				Interacao exibeCampoSugestaoUsuario = new Interacao();
 				exibeCampoSugestaoUsuario.sugestaoDoUsuario();
 				String nomeSugestao = exibeCampoSugestaoUsuario.getNomeFilmeSugerido();
-				
+
 				FilmeSugestaoUsuario sugestoesDeUsuarios = new FilmeSugestaoUsuario(nomeSugestao);
 				listaSugestoesDoUsuario.add(sugestoesDeUsuarios);
 				System.out.println("Filmes sugeridos pelos nossos usuários\n");
-				
-				
+
 				for (FilmeSugestaoUsuario filmePlataforma : listaSugestoesDoUsuario) {
 					System.out.println(filmePlataforma.getNomeFilmeSugerido());
-					
+
 				}
-				
+
 				System.out.println("\n----------------------------------------------------------------------------\n");
-				
-				//Trata os generos mais assistidos pelos usuários
+
+				// Trata os generos mais assistidos pelos usuários
 				acaoUsuario = generosMaisUsuarios.getContAcao();
 				aventuraUsuario = generosMaisUsuarios.getContAventura();
 				romanceUsuario = generosMaisUsuarios.getContRomance();
@@ -346,7 +353,7 @@ public class ShowMenu implements FuncoesDoMenu {
 				suspenseUsuario = generosMaisUsuarios.getContSuspense();
 				outrosUsuario = generosMaisUsuarios.getContOutros();
 
-				//Trata os generos mais assistidos da plataforma
+				// Trata os generos mais assistidos da plataforma
 				acaoPlataforma = generosMaisPlataforma.getContAcao();
 				aventuraPlataforma = generosMaisPlataforma.getContAventura();
 				romancePlataforma = generosMaisPlataforma.getContRomance();
@@ -369,6 +376,39 @@ public class ShowMenu implements FuncoesDoMenu {
 
 				System.out.println("\nOs generos mais assistidos do DevInFlix são:");
 				comparaGenerosMaisPlataforma.generoMaisPlataforma();
+
+				System.out.println("\nFilmes curtidos e descurtidos pelos usuários");
+
+//				armazenaEscolhaUsuario.add(escolhaFilme);
+//				//armazenaNomeUsuario.add(listaDeUsuarios.getNomeCompleto());
+//				
+//				System.out.println(armazenaNomeUsuario);
+//				System.out.println(armazenaEscolhaUsuario);
+
+				
+				
+				
+				relatorioCurtidasDescurtidas.relatorioCurtidas(escolhaFilmesDaLista, cadastroUsuarios, escolhaFilme, secaoUsuario, secaoUsuario);
+				
+				//System.out.println(relatorioCurtidasDescurtidas.getNomeUsuario() + " : " + relatorioCurtidasDescurtidas.getNomeFilme());
+				armazenaNomeUsuario.add(relatorioCurtidasDescurtidas.getNomeUsuario());
+				armazenaNomeFilme.add(relatorioCurtidasDescurtidas.getNomeFilme());
+				
+				System.out.println(armazenaNomeUsuario);
+				System.out.println(armazenaNomeFilme);
+				
+				
+				for (int i = 0; i < armazenaNomeUsuario.size(); i++) {
+					
+					System.out.print("Nome: " + armazenaNomeUsuario.get(i));
+					for (int j = i; j < armazenaNomeFilme.size(); j++) {
+						
+						System.out.println(", Filme: " + armazenaNomeFilme.get(j));
+						break;
+					}
+					continue;
+				}
+				
 
 				boolean saidaPrograma = true;
 				while (saidaPrograma) {

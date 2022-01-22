@@ -7,5 +7,5 @@ import filmes.FilmePlataforma;
 
 public interface EscolheFilme {
 	
-	public void escolhaDoFilme(List<FilmePlataforma> filmes, int escolha);
+	public int escolhaDoFilme(List<FilmePlataforma> filmes, int escolha);
 }

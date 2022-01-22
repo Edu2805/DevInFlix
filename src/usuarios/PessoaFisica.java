@@ -19,8 +19,6 @@ public class PessoaFisica extends Pessoa implements CurtirDescurtir, Recomendaca
 		super(nomeCompleto, enderecoCompleto, dataNascimento);
 
 	}
-
-	int teste;
 	
 	@Override
 	public void usuarioRecomenda() {
@@ -135,7 +133,7 @@ public class PessoaFisica extends Pessoa implements CurtirDescurtir, Recomendaca
 	}
 
 	@Override
-	public void escolhaDoFilme(List<FilmePlataforma> filmes, int escolha) {
+	public int escolhaDoFilme(List<FilmePlataforma> filmes, int escolha) {
 		Scanner sc = new Scanner(System.in);
 
 		int escolhaFilme = 0;
@@ -165,6 +163,8 @@ public class PessoaFisica extends Pessoa implements CurtirDescurtir, Recomendaca
 				}
 			}
 		}
+		
+		return escolha;
 	}
 
 	@Override
