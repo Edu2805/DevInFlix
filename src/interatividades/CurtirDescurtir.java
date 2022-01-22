@@ -2,5 +2,6 @@ package interatividades;
 
 public interface CurtirDescurtir {
 
-	public int likeDeslike();
+	public int likeDeslike(String nomeCompleto);
+	
 }

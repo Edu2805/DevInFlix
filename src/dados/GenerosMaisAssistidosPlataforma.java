@@ -10,18 +10,18 @@ import usuarios.PessoaFisica;
 @Data
 public class GenerosMaisAssistidosPlataforma {
 
-	int contAcao;
-	int contAventura;
-	int contCartoon;
-	int contDocumentario;
-	int contDrama;
-	int contIndependentes;
-	int contRomance;
-	int contSuspense;
-	int contOutros;
+	private int contAcao;
+	private int contAventura;
+	private int contCartoon;
+	private int contDocumentario;
+	private int contDrama;
+	private int contIndependentes;
+	private int contRomance;
+	private int contSuspense;
+	private int contOutros;
 
-	public void generosMaisAssistidosPlataforma(List<FilmePlataforma> filmes, List<PessoaFisica> pessoaFisica, int escolhaFilme,
-			int secaoUsuario) {
+	public void generosMaisAssistidosPlataforma(List<FilmePlataforma> filmes, List<PessoaFisica> pessoaFisica,
+			int escolhaFilme, int secaoUsuario) {
 		if (filmes.get(escolhaFilme).getGenero() == Genero.ACAO.getDescricao()) {
 			contAcao++;
 

@@ -12,7 +12,7 @@ public enum Genero {
 	CARTOON ("Cartoon"), 
 	OUTROS ("Outros");
 
-	private String descricao;
+	private final String descricao;
 	
 	Genero(String descricao) {
 		this.descricao = descricao;

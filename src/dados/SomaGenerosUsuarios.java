@@ -12,15 +12,15 @@ import lombok.Data;
 @AllArgsConstructor
 public class SomaGenerosUsuarios {
 
-	int acao;
-	int aventura;
-	int romance;
-	int cartoon;
-	int drama;
-	int documentario;
-	int independentes;
-	int suspense;
-	int outros;
+	private int acao;
+	private int aventura;
+	private int romance;
+	private int cartoon;
+	private int drama;
+	private int documentario;
+	private int independentes;
+	private int suspense;
+	private int outros;
 
 	public int generoMaisUsuario() {
 		ArrayList<Integer> listaDeGeneros = new ArrayList<>();

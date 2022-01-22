@@ -8,6 +8,7 @@ import lombok.Data;
 @AllArgsConstructor
 public abstract class Colecao {
 
+	private int id;
 	private String nome;
 	private String sinopse;
 	private String genero;

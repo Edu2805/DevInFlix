@@ -7,7 +7,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
-
 import dados.DadosCurtidasDescurtidas;
 import dados.GenerosMaisAssistidosPlataforma;
 import dados.GenerosMaisAssistidosUsuarios;
@@ -17,7 +16,6 @@ import filmes.FilmePlataforma;
 import filmes.FilmeSugestaoUsuario;
 import generos.Genero;
 import interatividades.Interacao;
-import interatividades.SugestaoUsuarios;
 import usuarios.PessoaFisica;
 
 public class ShowMenu implements FuncoesDoMenu {
@@ -30,33 +28,34 @@ public class ShowMenu implements FuncoesDoMenu {
 		Set<FilmeSugestaoUsuario> listaSugestoesDoUsuario = new LinkedHashSet<FilmeSugestaoUsuario>();
 		List<String> armazenaNomeUsuario = new ArrayList<>();
 		List<String> armazenaNomeFilme = new ArrayList<>();
+		List<Integer> curtidasEDescurtidas = new ArrayList<>();
 		GenerosMaisAssistidosUsuarios generosMaisUsuarios = new GenerosMaisAssistidosUsuarios();
 		GenerosMaisAssistidosPlataforma generosMaisPlataforma = new GenerosMaisAssistidosPlataforma();
 		DadosCurtidasDescurtidas relatorioCurtidasDescurtidas = new DadosCurtidasDescurtidas();
-		
+		Interacao exibeCampoSugestaoUsuario = new Interacao();
 
 		System.out.println("########################## DEVINFLIX ##########################");
 		System.out.println("\n################## FILMES E SÉRIES EM CARTAZ ##################\n");
 
 		Set<FilmePlataforma> listaDeFilmes = new LinkedHashSet<FilmePlataforma>();
 
-		FilmePlataforma exterminadorDoFuturo = new FilmePlataforma("O Exterminador do Futuro",
+		FilmePlataforma exterminadorDoFuturo = new FilmePlataforma(1, "O Exterminador do Futuro",
 				"Robô disfarçado de humano ", Genero.ACAO.getDescricao(), "https://youtu.be/OFCE1ppomCg");
 
-		FilmePlataforma clubeDaLuta = new FilmePlataforma("Clube da luta", "Carinha que se revolta com o sistema ",
+		FilmePlataforma clubeDaLuta = new FilmePlataforma(2, "Clube da luta", "Carinha que se revolta com o sistema ",
 				Genero.AVENTURA.getDescricao(), "https://youtu.be/Fs0-4NLSO2Y");
 
-		FilmePlataforma oLoboDeWallStreet = new FilmePlataforma("O Lobo de Wall Street",
+		FilmePlataforma oLoboDeWallStreet = new FilmePlataforma(3, "O Lobo de Wall Street",
 				"Vendedor vendendo coisas que não existem ", Genero.ACAO.getDescricao(),
 				"https://youtu.be/PoSCUsNQVtw");
 
-		FilmePlataforma ameliePoulain = new FilmePlataforma("Amelie Poulain", "Filme francês fofinho ",
+		FilmePlataforma ameliePoulain = new FilmePlataforma(4, "Amelie Poulain", "Filme francês fofinho ",
 				Genero.ROMANCE.getDescricao(), "https://youtu.be/HUECWi5pX7o");
 
-		FilmePlataforma crepusculo = new FilmePlataforma("Crepúsculo", "Bela, o Lobo quente e o Vampiro gelado ",
+		FilmePlataforma crepusculo = new FilmePlataforma(5, "Crepúsculo", "Bela, o Lobo quente e o Vampiro gelado ",
 				Genero.ROMANCE.getDescricao(), "https://youtu.be/Ru8THEGdcEU");
 
-		FilmePlataforma harryPotter = new FilmePlataforma("Harry Potter", "Pequeno bruxo que só se ferra ",
+		FilmePlataforma harryPotter = new FilmePlataforma(6, "Harry Potter", "Pequeno bruxo que só se ferra ",
 				Genero.AVENTURA.getDescricao(), "https://youtu.be/VyHV0BRtdxo");
 
 		listaDeFilmes.add(exterminadorDoFuturo);
@@ -112,7 +111,7 @@ public class ShowMenu implements FuncoesDoMenu {
 
 		while (entrarMenu != 2) {
 
-			String nome;
+			String nome = "";
 			String endereco;
 			String idade = "";
 			LocalDate data = null;
@@ -255,10 +254,11 @@ public class ShowMenu implements FuncoesDoMenu {
 					}
 				}
 
-				listaDeUsuarios.likeDeslike();
+				// listaDeUsuarios.likeDeslike();
+				exibeCampoSugestaoUsuario.likeDeslike(listaDeUsuarios.getNomeCompleto());
 
-				// Exibe a lista de usuários, para que o usuário da secao possa escoher outros
-				// usuário para indicar filmes
+				// Exibe a lista de usuários, para que o usuário da secao possa escolher outros
+				// usuários para indicar filmes
 				int escolha = 0;
 				boolean usuarioRecomenda = true;
 				boolean stopWhileRecomenda = true;
@@ -273,7 +273,7 @@ public class ShowMenu implements FuncoesDoMenu {
 						for (int i = controlaListaUsuarios; i < cadastroUsuarios.size(); i++) {
 							if (secaoUsuario == i) {
 								/**
-								 * Impede que o usuário selecione ele mesmo para recomendar filmes, permite que
+								 * Impede que o usuário vizualize ele mesmo para recomendar filmes, permite que
 								 * o indice dele nao seja exibido enquanto usa o sistema
 								 */
 
@@ -295,7 +295,6 @@ public class ShowMenu implements FuncoesDoMenu {
 							}
 						}
 
-						// Fazer um loop com excecoes
 						if (controleLista == 2) {
 							System.out.print("-->");
 							escolha = sc.nextInt();
@@ -327,7 +326,7 @@ public class ShowMenu implements FuncoesDoMenu {
 				}
 
 				// Sugestão de filme usuário
-				Interacao exibeCampoSugestaoUsuario = new Interacao();
+
 				exibeCampoSugestaoUsuario.sugestaoDoUsuario();
 				String nomeSugestao = exibeCampoSugestaoUsuario.getNomeFilmeSugerido();
 
@@ -377,43 +376,51 @@ public class ShowMenu implements FuncoesDoMenu {
 				System.out.println("\nOs generos mais assistidos do DevInFlix são:");
 				comparaGenerosMaisPlataforma.generoMaisPlataforma();
 
-				System.out.println("\nFilmes curtidos e descurtidos pelos usuários");
+				System.out.println("\nFilmes curtidos e descurtidos pelos usuários\n");
 
-//				armazenaEscolhaUsuario.add(escolhaFilme);
-//				//armazenaNomeUsuario.add(listaDeUsuarios.getNomeCompleto());
-//				
-//				System.out.println(armazenaNomeUsuario);
-//				System.out.println(armazenaEscolhaUsuario);
+				// Relatório de filmes curtidos
+				relatorioCurtidasDescurtidas.relatorioCurtidas(escolhaFilmesDaLista, cadastroUsuarios, escolhaFilme,
+						secaoUsuario, secaoUsuario);
 
-				
-				
-				
-				relatorioCurtidasDescurtidas.relatorioCurtidas(escolhaFilmesDaLista, cadastroUsuarios, escolhaFilme, secaoUsuario, secaoUsuario);
-				
-				//System.out.println(relatorioCurtidasDescurtidas.getNomeUsuario() + " : " + relatorioCurtidasDescurtidas.getNomeFilme());
 				armazenaNomeUsuario.add(relatorioCurtidasDescurtidas.getNomeUsuario());
 				armazenaNomeFilme.add(relatorioCurtidasDescurtidas.getNomeFilme());
-				
-				System.out.println(armazenaNomeUsuario);
-				System.out.println(armazenaNomeFilme);
-				
-				
+				curtidasEDescurtidas.add(exibeCampoSugestaoUsuario.getCurtidasDescurtidas());
+
+				// Testes
+//				System.out.println(armazenaNomeUsuario);
+//				System.out.println(armazenaNomeFilme);
+//				System.out.println(curtidasEDescurtidas);
+
 				for (int i = 0; i < armazenaNomeUsuario.size(); i++) {
-					
-					System.out.print("Nome: " + armazenaNomeUsuario.get(i));
+
+					if (curtidasEDescurtidas.get(i) == 1) {
+						System.out.print(armazenaNomeUsuario.get(i) + " deu like no ");
+					} else if (curtidasEDescurtidas.get(i) == 2) {
+						System.out.print(armazenaNomeUsuario.get(i) + " deu deslike no ");
+					} else {
+						// não exibe o usuário que não curtiu e nem descurtiu o filme
+
+					}
+
 					for (int j = i; j < armazenaNomeFilme.size(); j++) {
-						
-						System.out.println(", Filme: " + armazenaNomeFilme.get(j));
-						break;
+
+						if (curtidasEDescurtidas.get(i) >= 1 && curtidasEDescurtidas.get(i) <= 2) {
+							System.out.println("filme " + armazenaNomeFilme.get(j));
+							break;
+
+						} else {
+							break;
+						}
 					}
 					continue;
 				}
-				
 
 				boolean saidaPrograma = true;
 				while (saidaPrograma) {
 					boolean stopWhile = true;
 					while (stopWhile) {
+						System.out.println(
+								"\n---------------------------------------------------------------------------\n");
 						System.out.println("\nDeseja sair do sistema?\n1- Para NÃO\n2- Para SIM");
 						entrarMenu = sc.nextInt();
 						sc.nextLine();
