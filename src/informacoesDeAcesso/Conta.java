@@ -1,6 +1,7 @@
 package informacoesDeAcesso;
 
 import java.time.Period;
+import java.util.List;
 
 public class Conta {
 
@@ -31,6 +32,15 @@ public class Conta {
 	}
 
 
+	public boolean verificaLogin (String dadosCadastro, String dadosLogin) {
+		
+		if(dadosCadastro.equals(dadosLogin)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public String geteMail() {
 		return eMail;
 	}
