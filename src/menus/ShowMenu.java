@@ -1,6 +1,7 @@
 package menus;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -15,6 +16,7 @@ import dados.SomaGenerosUsuarios;
 import filmes.FilmePlataforma;
 import filmes.FilmeSugestaoUsuario;
 import generos.Genero;
+import informacoesDeAcesso.Conta;
 import interatividades.Interacao;
 import usuarios.PessoaFisica;
 
@@ -25,6 +27,7 @@ public class ShowMenu implements FuncoesDoMenu {
 		Scanner sc = new Scanner(System.in);
 
 		List<PessoaFisica> cadastroUsuarios = new ArrayList<>();
+		List<Conta> cadastroDeContas = new ArrayList<>();
 		Set<FilmeSugestaoUsuario> listaSugestoesDoUsuario = new LinkedHashSet<FilmeSugestaoUsuario>();
 		List<String> armazenaNomeUsuario = new ArrayList<>();
 		List<String> armazenaNomeFilme = new ArrayList<>();
@@ -34,6 +37,9 @@ public class ShowMenu implements FuncoesDoMenu {
 		DadosCurtidasDescurtidas relatorioCurtidasDescurtidas = new DadosCurtidasDescurtidas();
 		Interacao exibeCampoSugestaoUsuario = new Interacao();
 
+		Conta contaUsuario = new Conta();
+		PessoaFisica listaDeUsuarios = new PessoaFisica(null, null, null);
+		
 		System.out.println("########################## DEVINFLIX ##########################");
 		System.out.println("\n################## FILMES E SÉRIES EM CARTAZ ##################\n");
 
@@ -92,7 +98,6 @@ public class ShowMenu implements FuncoesDoMenu {
 		int independentesUsuario;
 		int suspenseUsuario;
 		int outrosUsuario;
-
 		int acaoPlataforma;
 		int aventuraPlataforma;
 		int romancePlataforma;
@@ -102,38 +107,73 @@ public class ShowMenu implements FuncoesDoMenu {
 		int independentesPlataforma;
 		int suspensePlataforma;
 		int outrosPlataforma;
+		int dia, mes, ano;
+		int escolhaFilme = 0;
+		int quantidadeVezesEscolhaFilme = 0;
+		int controlaNumeroDeContas = 1;
 
 		boolean pagamento = false;
-		int escolhaFilme = 0;
-
-		// Verificar se cabe utilizacao
-		int quantidadeVezesEscolhaFilme = 0;
-
+		
+		Period idadeUsuario = null;
+		
 		while (entrarMenu != 2) {
 
 			String nome = "";
 			String endereco;
-			String idade = "";
+			String enderecoDeEmail;
+			String senha;
 			LocalDate data = null;
 			String dataFormatada = "";
 
 			// Área de insercao e validacao de dados do cliente
-			while (true) {
-
+			while (controlaNumeroDeContas <= 3) {
+				
+				System.out.println("\nNo DevInFlix você pode cadastrar até três contas incluindo a sua, aproveite essa facilidade!\n");
+				
 				System.out.print("Digite o seu nome: ");
 				nome = sc.nextLine();
 
-				System.out.print("Digite o seu endereço: ");
+				System.out.print("\nDigite o seu endereço: ");
 				endereco = sc.nextLine();
+
+				System.out.print("\nInsira o seu endereço de e-mail: ");
+				enderecoDeEmail = sc.nextLine();
+
+				while (true) {
+					
+					System.out.print("\nCadastre uma senha: ");
+					senha = sc.nextLine();
+					
+					System.out.print("\nConfirme a sua senha: ");
+					String verificaSenha = sc.nextLine();
+					
+					if(senha.equals(verificaSenha)) {
+						System.out.println("\nSenha cadastrada com sucesso!");
+						break;
+					} else {
+						System.out.println("\nA senha não confere, cadastre novamente!");
+					}
+				}
 
 				boolean status = true;
 				while (status) {
-					System.out.print("Entre com a data do seu nascimento: (dd/mm/aaaa): ");
+					System.out.print("\nEntre com a data do seu nascimento: (dd/mm/aaaa): ");
 					String str = sc.nextLine();
+					String[] teste = str.split("[/]");
+					dia = Integer.parseInt(teste[0]);
+					mes = Integer.parseInt(teste[1]);
+					ano = Integer.parseInt(teste[2]);
+					
+					LocalDate nascimento = LocalDate.of(ano, mes, dia);
+					LocalDate hoje = LocalDate.now();
+					
+					idadeUsuario = Period.between(nascimento, hoje);
+				    
 					try {
 						DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 						data = LocalDate.parse(str, fmt);
 						dataFormatada = data.format(fmt);
+						
 
 						status = false;
 					} catch (Exception e) {
@@ -141,31 +181,59 @@ public class ShowMenu implements FuncoesDoMenu {
 
 					}
 				}
-
+				
+				
+				
 				System.out.println(
 						"\n--------------------------------------------------------------------------------------------------\n");
-				System.out.println("Confirme os seus dados");
+				System.out.println("\nConfirme os seus dados");
 				System.out.println(
-						"Nome: " + nome + "\nEndereço: " + endereco + "\nData de nascimento: " + dataFormatada + "\n");
+						"Nome: " + nome + "\nEndereço: " + endereco + "\nData de nascimento: " + dataFormatada + "\nIdade: " + idadeUsuario.getYears() + " anos\nE-mail: " + enderecoDeEmail + "\n");
 				System.out.println("Seus dados estão corretos? Digite 1 para SIM ou 2 para NÃO\n1- SIM\n2- NÃO");
 				System.out.print("-->");
 				int confirmacao = sc.nextInt();
 
 				if (confirmacao == 1) {
-					break;
+					
+					System.out.print("\nDeseja cadastrar mais algum usuário para essa conta?\n1- Sim\n2- NÃO\n-->");
+					int cadastroMaisUsuario = sc.nextInt();
+					sc.nextLine();
+					
+					
+					if(cadastroMaisUsuario == 1) {
+						
+						if(controlaNumeroDeContas == 3) {
+							System.out.println("\nVocê já atingiu o limite de dastros disponíveis por conta\n");
+							
+						}
+						
+					} else {
+						controlaNumeroDeContas = 3;
+					}
+					
+					listaDeUsuarios = new PessoaFisica(nome, endereco, dataFormatada);
+					
+					contaUsuario = new Conta(nome, endereco, idadeUsuario, enderecoDeEmail, senha, false);
+					
+					cadastroUsuarios.add(listaDeUsuarios);
+					cadastroDeContas.add(contaUsuario);
+					controlaNumeroDeContas++;
+					
 				} else {
-					System.out.println("Digite seus dados novamente.\n");
+					System.out.println("\nDigite seus dados novamente.\n");
 					sc.nextLine();
 				}
 			}
-
-			PessoaFisica listaDeUsuarios = new PessoaFisica(nome, endereco, dataFormatada);
-
-			cadastroUsuarios.add(listaDeUsuarios);
-
+			
+			//Teste
+			
+			for (Conta contas : cadastroDeContas) {
+				System.out.println("Nome: " + contas.getNome() + ", E-mail: " + contas.geteMail() + ", Idade: " + contas.getIdadeUsuario().getYears());
+			}
+			
 			boolean stopWhileMenuPagamento = true;
 			while (stopWhileMenuPagamento) {
-				System.out.println("Escolha a forma de pagamento\n1- Cartão de crédito\n2- PIX\n3- Boleto\n4- Sair");
+				System.out.println("\nEscolha a forma de pagamento\n1- Cartão de crédito\n2- PIX\n3- Boleto\n4- Sair");
 				System.out.print("-->");
 				int formaPagamento = sc.nextInt();
 
@@ -200,6 +268,7 @@ public class ShowMenu implements FuncoesDoMenu {
 				}
 			}
 
+			
 			if (pagamento == true) {
 
 				System.out.println("Seja bem-vindo ao DevInFlix, abaixo você pode conferir nosso catálogo de filmes\n");
