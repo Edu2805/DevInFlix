@@ -15,8 +15,10 @@ import dados.SomaGenerosPlataforma;
 import dados.SomaGenerosUsuarios;
 import filmes.FilmePlataforma;
 import filmes.FilmeSugestaoUsuario;
+import financeiro.Financeiro;
 import generos.Genero;
 import informacoesDeAcesso.Conta;
+import interatividades.Comentarios;
 import interatividades.Interacao;
 import usuarios.PessoaFisica;
 
@@ -34,11 +36,14 @@ public class ShowMenu implements FuncoesDoMenu {
 		List<Integer> curtidasEDescurtidas = new ArrayList<>();
 		List<String> armazenaDadosCadastros = new ArrayList<>();
 		List<String> armazenaDadosLogin = new ArrayList<>();
+		List<String> armazenaComentarios = new ArrayList<>();
 
 		GenerosMaisAssistidosUsuarios generosMaisUsuarios = new GenerosMaisAssistidosUsuarios();
 		GenerosMaisAssistidosPlataforma generosMaisPlataforma = new GenerosMaisAssistidosPlataforma();
 		DadosCurtidasDescurtidas relatorioCurtidasDescurtidas = new DadosCurtidasDescurtidas();
 		Interacao exibeCampoSugestaoUsuario = new Interacao();
+		Financeiro financeiro = new Financeiro();
+		Comentarios comentarios = new Comentarios();
 
 		Conta contaUsuario = new Conta();
 		PessoaFisica listaDeUsuarios = new PessoaFisica(null, null, null);
@@ -75,6 +80,7 @@ public class ShowMenu implements FuncoesDoMenu {
 		String dataFormatada = null;
 		String chaveCadastro = null;
 		String chaveLogin = null;
+		String comentarioUsuario = null;
 
 		boolean pagamento = false;
 
@@ -113,16 +119,18 @@ public class ShowMenu implements FuncoesDoMenu {
 
 		while (true) {
 
+			System.out.println("\n------------------------------------------------------------------\n");
 			System.out.println("######## FILMES E SÉRIES EM CARTAZ ########");
+			
 			for (FilmePlataforma filme : listaDeFilmes) {
 				System.out.println("      " + filme.getNome() + "            ");
 			}
+			
 			System.out.println("###########################################");
 
 			System.out.println("------------------------------------------------------------------\n");
 
 			// INPUTs do usuário
-
 			System.out.println("     Escolha uma das opções abaixo");
 			System.out.println("###########################################");
 			System.out.println("#                                         #");
@@ -241,43 +249,13 @@ public class ShowMenu implements FuncoesDoMenu {
 					}
 				}
 
-				boolean stopWhileMenuPagamento = true;
-				while (stopWhileMenuPagamento) {
-					System.out.println(
-							"\nEscolha a forma de pagamento\n1- Cartão de crédito\n2- PIX\n3- Boleto\n4- Sair");
-					System.out.print("-->");
-					int formaPagamento = sc.nextInt();
+				System.out.println("\nEscolha a forma de pagamento\n1- Cartão de crédito\n2- PIX\n3- Boleto\n4- Sair");
+				System.out.print("-->");
+				int formaPagamento = sc.nextInt();
 
-					switch (formaPagamento) {
-					case 1:
-						System.out.println("Você irá pagar com cartão de crédito");
-						pagamento = true;
-						stopWhileMenuPagamento = false;
-						break;
+				financeiro.verificaMensalidade(formaPagamento);
 
-					case 2:
-						System.out.println("Você irá pagar com PIX");
-						pagamento = true;
-						stopWhileMenuPagamento = false;
-						break;
-
-					case 3:
-						System.out.println("Você irá pagar com Boleto");
-						pagamento = true;
-						stopWhileMenuPagamento = false;
-						break;
-
-					case 4:
-						pagamento = false;
-						stopWhileMenuPagamento = false;
-						break;
-
-					default:
-						System.out.println("\nForma de pagamento inválida\n");
-						pagamento = false;
-						break;
-					}
-				}
+				pagamento = financeiro.isPagamento();
 
 			} else if (entrarMenu == 2) {
 
@@ -300,10 +278,11 @@ public class ShowMenu implements FuncoesDoMenu {
 					}
 				}
 
-				//armazenar os logins em arrays, reorganizar o código e seguir roteiro
-				
-				System.out.println("--------------------------------------------------------------------------------------------------");
-				
+				// armazenar os logins em arrays, reorganizar o código e seguir roteiro
+
+				System.out.println(
+						"--------------------------------------------------------------------------------------------------");
+
 				if (pagamento == true) {
 					System.out.println(
 							"\nSeja bem-vindo ao DevInFlix, abaixo você pode conferir nosso catálogo de filmes\n");
@@ -430,6 +409,29 @@ public class ShowMenu implements FuncoesDoMenu {
 						}
 					}
 
+					System.out.println(
+							"\n----------------------------------------------------------------------------\n");
+
+					System.out.println(
+							"\nDeseja fazer um comentário do filme que você acabou de assisti?\n1- SIM\n2- Não\n-->");
+
+					int fazerComentario = sc.nextInt();
+
+					if (fazerComentario == 1) {
+
+						System.out.print("Digite o seu comentário: ");
+
+						comentarios.fazerComentarioFilme();
+						comentarioUsuario = comentarios.getComentario();
+
+					} else {
+
+						System.out.println("\nMuito obrigado por usar o DevInFlix\n");
+					}
+
+					System.out.println(
+							"\n----------------------------------------------------------------------------\n");
+
 					// Sugestão de filme usuário
 
 					exibeCampoSugestaoUsuario.sugestaoDoUsuario();
@@ -492,11 +494,6 @@ public class ShowMenu implements FuncoesDoMenu {
 					armazenaNomeFilme.add(relatorioCurtidasDescurtidas.getNomeFilme());
 					curtidasEDescurtidas.add(exibeCampoSugestaoUsuario.getCurtidasDescurtidas());
 
-					// Testes
-//				System.out.println(armazenaNomeUsuario);
-//				System.out.println(armazenaNomeFilme);
-//				System.out.println(curtidasEDescurtidas);
-
 					for (int i = 0; i < armazenaNomeUsuario.size(); i++) {
 
 						if (curtidasEDescurtidas.get(i) == 1) {
@@ -521,43 +518,26 @@ public class ShowMenu implements FuncoesDoMenu {
 						continue;
 					}
 
-					boolean saidaPrograma = true;
-					while (saidaPrograma) {
-						boolean stopWhile = true;
-						while (stopWhile) {
-							System.out.println(
-									"\n---------------------------------------------------------------------------\n");
-							System.out.println("\nDeseja sair do sistema?\n1- Para NÃO\n2- Para SIM");
-							entrarMenu = sc.nextInt();
-							sc.nextLine();
+					// Comentários dos usuários
+					armazenaComentarios.add(comentarioUsuario);
+					comentarios.filmesComentados(escolhaFilmesDaLista, cadastroUsuarios, armazenaComentarios,
+							escolhaFilme);
 
-							if (entrarMenu == 2) {
-								break;
-							} else if (entrarMenu == 1) {
-
-								// Zera os contadores da seção do usuário
-								generosMaisUsuarios.setContAcao(0);
-								generosMaisUsuarios.setContAventura(0);
-								generosMaisUsuarios.setContCartoon(0);
-								generosMaisUsuarios.setContDocumentario(0);
-								generosMaisUsuarios.setContDrama(0);
-								generosMaisUsuarios.setContIndependentes(0);
-								generosMaisUsuarios.setContRomance(0);
-								generosMaisUsuarios.setContSuspense(0);
-								generosMaisUsuarios.setContOutros(0);
-
-								break;
-							} else {
-								System.out.println("\nPor gentileza, digite uma das opções listadas\n");
-							}
-						}
-
-						if (entrarMenu == 1 || entrarMenu == 2) {
-							break;
-						}
-					}
+					// Zera os contadores da seção do usuário
+					generosMaisUsuarios.setContAcao(0);
+					generosMaisUsuarios.setContAventura(0);
+					generosMaisUsuarios.setContCartoon(0);
+					generosMaisUsuarios.setContDocumentario(0);
+					generosMaisUsuarios.setContDrama(0);
+					generosMaisUsuarios.setContIndependentes(0);
+					generosMaisUsuarios.setContRomance(0);
+					generosMaisUsuarios.setContSuspense(0);
+					generosMaisUsuarios.setContOutros(0);
 
 					secaoUsuario++;
+					
+					//Verificar....
+					controlaNumeroDeContas = 0;
 				} else {
 					System.out.println(
 							"Parece que houve um problema com o pagamento da mensalidade, retorne ao sistema e realize o pagamento.");
