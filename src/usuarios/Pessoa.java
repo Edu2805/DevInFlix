@@ -1,5 +1,7 @@
 package usuarios;
 
+import java.time.Period;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -9,6 +11,10 @@ public abstract class Pessoa {
 
 	protected String nomeCompleto;
 	protected String enderecoCompleto;
-	protected String dataNascimento;
+	protected Period idade;
+	protected String eMail;
+	protected String senha;
+	protected String chaveCadastro;
+	protected boolean statusPagamento;
 	
 }

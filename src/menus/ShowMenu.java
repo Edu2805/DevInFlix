@@ -20,6 +20,7 @@ import generos.Genero;
 import informacoesDeAcesso.Conta;
 import interatividades.Comentarios;
 import interatividades.Interacao;
+import usuarios.Pessoa;
 import usuarios.PessoaFisica;
 
 public class ShowMenu implements FuncoesDoMenu {
@@ -34,7 +35,8 @@ public class ShowMenu implements FuncoesDoMenu {
 		List<String> armazenaNomeUsuario = new ArrayList<>();
 		List<String> armazenaNomeFilme = new ArrayList<>();
 		List<Integer> curtidasEDescurtidas = new ArrayList<>();
-		List<String> armazenaDadosCadastros = new ArrayList<>();
+		List<String> armazenaDadosCadastrosUsuario = new ArrayList<>();
+		List<String> armazenaDadosCadastrosPerfil = new ArrayList<>();
 		List<String> armazenaDadosLogin = new ArrayList<>();
 		List<String> armazenaComentarios = new ArrayList<>();
 
@@ -46,7 +48,7 @@ public class ShowMenu implements FuncoesDoMenu {
 		Comentarios comentarios = new Comentarios();
 
 		Conta contaUsuario = new Conta();
-		PessoaFisica listaDeUsuarios = new PessoaFisica(null, null, null);
+		PessoaFisica listaDeUsuarios = new PessoaFisica(null, null, null, null, null, null, false);
 
 		int secaoUsuario = 0;
 		int controlaListaUsuarios = 0;
@@ -71,7 +73,7 @@ public class ShowMenu implements FuncoesDoMenu {
 		int dia, mes, ano;
 		int escolhaFilme = 0;
 		int quantidadeVezesEscolhaFilme = 0;
-		int controlaNumeroDeContas = 1;
+		int controlaNumeroDePerfis = 1;
 
 		String nome = null;
 		String endereco = null;
@@ -83,6 +85,7 @@ public class ShowMenu implements FuncoesDoMenu {
 		String comentarioUsuario = null;
 
 		boolean pagamento = false;
+		boolean checkLogin = false;
 
 		LocalDate data = null;
 		Period idadeUsuario = null;
@@ -121,11 +124,11 @@ public class ShowMenu implements FuncoesDoMenu {
 
 			System.out.println("\n------------------------------------------------------------------\n");
 			System.out.println("######## FILMES E SÉRIES EM CARTAZ ########");
-			
+
 			for (FilmePlataforma filme : listaDeFilmes) {
 				System.out.println("      " + filme.getNome() + "            ");
 			}
-			
+
 			System.out.println("###########################################");
 
 			System.out.println("------------------------------------------------------------------\n");
@@ -149,10 +152,8 @@ public class ShowMenu implements FuncoesDoMenu {
 
 			if (entrarMenu == 1) {
 
-				while (controlaNumeroDeContas <= 3) {
-
 					System.out.println(
-							"\nNo DevInFlix você pode cadastrar até três contas incluindo a sua, aproveite essa facilidade!\n");
+							"\nNo DevInFlix você pode cadastrar até três perfis de usuários, aproveite essa facilidade!\n");
 
 					System.out.print("Digite o seu nome: ");
 					nome = sc.nextLine();
@@ -217,38 +218,130 @@ public class ShowMenu implements FuncoesDoMenu {
 
 					if (confirmacao == 1) {
 
-						System.out.print("\nDeseja cadastrar mais algum usuário para essa conta?\n1- Sim\n2- NÃO\n-->");
-						int cadastroMaisUsuario = sc.nextInt();
-						sc.nextLine();
-
-						if (cadastroMaisUsuario == 1) {
-
-							if (controlaNumeroDeContas == 3) {
-								System.out.println("\nVocê já atingiu o limite de dastros disponíveis por conta\n");
-
-							}
-
-						} else {
-							controlaNumeroDeContas = 3;
-						}
-
-						listaDeUsuarios = new PessoaFisica(nome, endereco, dataFormatada);
-
-						contaUsuario = new Conta(nome, endereco, idadeUsuario, enderecoDeEmail, senha, false);
-
-						cadastroUsuarios.add(listaDeUsuarios);
-						cadastroDeContas.add(contaUsuario);
-						controlaNumeroDeContas++;
-
 						chaveCadastro = enderecoDeEmail.concat(senha);
-						armazenaDadosCadastros.add(chaveCadastro);
+						// armazenaDadosCadastrosUsuario.add(chaveCadastro);
+
+						listaDeUsuarios = new PessoaFisica(nome, endereco, idadeUsuario, enderecoDeEmail, senha,
+								chaveCadastro, false);
+						cadastroUsuarios.add(listaDeUsuarios);
 
 					} else {
 						System.out.println("\nDigite seus dados novamente.\n");
 						sc.nextLine();
 					}
-				}
 
+					
+					//Novo loop deseja cadastrar mais um usuário?
+					System.out.print("\nDeseja cadastrar mais algum usuário para essa conta?\n1- Sim\n2- NÃO\n-->");
+					int cadastroMaisUsuario = sc.nextInt();
+					sc.nextLine();
+
+					if (cadastroMaisUsuario == 1) {
+
+						if (controlaNumeroDePerfis == 3) {
+							System.out.println("\nVocê já atingiu o limite de dastros disponíveis por conta\n");
+
+						} else {
+
+							while (controlaNumeroDePerfis <= 3) {
+								
+								System.out.print("Digite o seu nome: ");
+								nome = sc.nextLine();
+
+								System.out.print("\nDigite o seu endereço: ");
+								endereco = sc.nextLine();
+
+								System.out.print("\nInsira o seu endereço de e-mail: ");
+								enderecoDeEmail = sc.nextLine();
+
+								while (true) {
+
+									System.out.print("\nCadastre uma senha: ");
+									senha = sc.nextLine();
+
+									System.out.print("\nConfirme a sua senha: ");
+									String verificaSenha = sc.nextLine();
+
+									if (senha.equals(verificaSenha)) {
+										System.out.println("\nSenha cadastrada com sucesso!");
+										break;
+									} else {
+										System.out.println("\nA senha não confere, cadastre novamente!");
+									}
+								}
+
+								status = true;
+								while (status) {
+									System.out.print("\nEntre com a data do seu nascimento: (dd/mm/aaaa): ");
+									String str = sc.nextLine();
+									String[] teste = str.split("[/]");
+									dia = Integer.parseInt(teste[0]);
+									mes = Integer.parseInt(teste[1]);
+									ano = Integer.parseInt(teste[2]);
+
+									LocalDate nascimento = LocalDate.of(ano, mes, dia);
+									LocalDate hoje = LocalDate.now();
+
+									idadeUsuario = Period.between(nascimento, hoje);
+
+									try {
+										DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+										data = LocalDate.parse(str, fmt);
+										dataFormatada = data.format(fmt);
+
+										status = false;
+									} catch (Exception e) {
+										System.out.println(
+												"\nPor gentileza, digite sua data no formato que o sistema pede.\n");
+
+									}
+								}
+
+								System.out.println(
+										"\n--------------------------------------------------------------------------------------------------\n");
+								System.out.println("\nConfirme os seus dados");
+								System.out.println("Nome: " + nome + "\nEndereço: " + endereco
+										+ "\nData de nascimento: " + dataFormatada + "\nIdade: "
+										+ idadeUsuario.getYears() + " anos\nE-mail: " + enderecoDeEmail + "\n");
+								System.out.println(
+										"Seus dados estão corretos? Digite 1 para SIM ou 2 para NÃO\n1- SIM\n2- NÃO");
+								System.out.print("-->");
+								confirmacao = sc.nextInt();
+
+								if (confirmacao == 1) {
+									controlaNumeroDePerfis++;
+									
+									chaveCadastro = enderecoDeEmail.concat(senha);
+
+									contaUsuario = new Conta(nome, endereco, idadeUsuario, enderecoDeEmail, senha,
+											chaveCadastro, false);
+									cadastroDeContas.add(contaUsuario);
+									
+								}
+								
+								System.out.println(
+										"Deseja cadastrar mais um perfil?\n1- SIM\n2- NÃO");
+								System.out.print("-->");
+								confirmacao = sc.nextInt();
+								
+								
+								if(confirmacao == 1) {
+									
+									sc.nextLine();
+									
+								} else {
+									break;
+								}
+
+							}
+
+						}
+
+					} else {
+						controlaNumeroDePerfis = 3;
+						break;
+					}
+					
 				System.out.println("\nEscolha a forma de pagamento\n1- Cartão de crédito\n2- PIX\n3- Boleto\n4- Sair");
 				System.out.print("-->");
 				int formaPagamento = sc.nextInt();
@@ -269,12 +362,41 @@ public class ShowMenu implements FuncoesDoMenu {
 
 					chaveLogin = emailLogin.concat(senhaLogin);
 
-					if (contaUsuario.verificaLogin(chaveCadastro, chaveLogin) == true) {
+					// array de chaves
+					// depois compara com as chaves de cadastro já inclusas no array
 
-						armazenaDadosLogin.add(chaveLogin);
+					for (int i = 0; i < cadastroUsuarios.size(); i++) {
+
+						for (int j = 0; j < cadastroDeContas.size(); j++) {
+
+							if (cadastroUsuarios.get(i).getChaveCadastro().equals(chaveLogin)) {
+
+								System.out.println("Está com " + cadastroUsuarios.get(i).getNomeCompleto());
+
+								
+								//Jogar o programa aqui pra dentro e criar dois cenários?
+								
+								checkLogin = true;
+								break;
+
+							} else if (cadastroDeContas.get(j).getChaveCadastro().equals(chaveLogin)) {
+
+								System.out.println("Está com " + cadastroDeContas.get(j).getNome());
+								
+								checkLogin = true;
+								break;
+
+							} else {
+								System.out.println("\nDados de login incorretos, tente novamente!");
+								checkLogin = false;
+
+							}
+
+						}
+					}
+
+					if (checkLogin == true) {
 						break;
-					} else {
-						System.out.println("\nDados de login incorretos, tente novamente!");
 					}
 				}
 
@@ -518,6 +640,11 @@ public class ShowMenu implements FuncoesDoMenu {
 						continue;
 					}
 
+					System.out.println(
+							"\n----------------------------------------------------------------------------\n");
+
+					System.out.println("\nComentários dos usuários\n");
+
 					// Comentários dos usuários
 					armazenaComentarios.add(comentarioUsuario);
 					comentarios.filmesComentados(escolhaFilmesDaLista, cadastroUsuarios, armazenaComentarios,
@@ -535,9 +662,9 @@ public class ShowMenu implements FuncoesDoMenu {
 					generosMaisUsuarios.setContOutros(0);
 
 					secaoUsuario++;
-					
-					//Verificar....
-					controlaNumeroDeContas = 0;
+
+					// Verificar....
+					controlaNumeroDePerfis = 0;
 				} else {
 					System.out.println(
 							"Parece que houve um problema com o pagamento da mensalidade, retorne ao sistema e realize o pagamento.");

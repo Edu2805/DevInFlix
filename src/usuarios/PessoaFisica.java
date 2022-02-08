@@ -1,6 +1,7 @@
 package usuarios;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +16,12 @@ import interatividades.Recomendacao;
 
 public class PessoaFisica extends Pessoa implements Recomendacao, EscolheFilme {
 
-	public PessoaFisica(String nomeCompleto, String enderecoCompleto, String dataNascimento) {
-		super(nomeCompleto, enderecoCompleto, dataNascimento);
+	
 
+	public PessoaFisica(String nomeCompleto, String enderecoCompleto, Period idade, String eMail, String senha,
+			String chaveCadastro, boolean statusPagamento) {
+		super(nomeCompleto, enderecoCompleto, idade, eMail, senha, chaveCadastro, statusPagamento);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -165,5 +169,12 @@ public class PessoaFisica extends Pessoa implements Recomendacao, EscolheFilme {
 		}
 
 		return escolha;
+	}
+
+	@Override
+	public String toString() {
+		return "PessoaFisica [nomeCompleto=" + nomeCompleto + ", enderecoCompleto=" + enderecoCompleto + ", idade="
+				+ idade + ", eMail=" + eMail + ", senha=" + senha + ", chaveCadastro=" + chaveCadastro
+				+ ", statusPagamento=" + statusPagamento + "]";
 	}
 }

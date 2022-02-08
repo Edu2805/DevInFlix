@@ -10,9 +10,12 @@ public class Conta {
 	protected Period idadeUsuario;
 	protected String eMail;
 	protected String senha;
+	protected String chaveCadastro;
 	protected boolean statusPagamento;
 
-	public Conta(String nome, String endereco, Period idadeUsuario, String eMail, String senha,
+	
+
+	public Conta(String nome, String endereco, Period idadeUsuario, String eMail, String senha, String chaveCadastro,
 			boolean statusPagamento) {
 		super();
 		this.nome = nome;
@@ -20,6 +23,7 @@ public class Conta {
 		this.idadeUsuario = idadeUsuario;
 		this.eMail = eMail;
 		this.senha = senha;
+		this.chaveCadastro = chaveCadastro;
 		this.statusPagamento = statusPagamento;
 	}
 
@@ -29,16 +33,19 @@ public class Conta {
 	
 	public void perfilUsuario(int idadeUsuario, String eMail, String senha, boolean statusPagamento) {
 			
+		
+		
+		
 	}
 
 
-	public boolean verificaLogin (String dadosCadastro, String dadosLogin) {
+	public boolean verificaLogin () {
+		return statusPagamento;
 		
-		if(dadosCadastro.equals(dadosLogin)) {
-			return true;
-		} else {
-			return false;
-		}
+		
+		
+		
+		
 	}
 	
 	public String geteMail() {
@@ -93,6 +100,13 @@ public class Conta {
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
-	
+
+	public String getChaveCadastro() {
+		return chaveCadastro;
+	}
+
+	public void setChaveCadastro(String chaveCadastro) {
+		this.chaveCadastro = chaveCadastro;
+	}
 	
 }
