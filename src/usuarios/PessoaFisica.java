@@ -10,17 +10,17 @@ import java.util.Set;
 
 import filmes.FilmePlataforma;
 import generos.Genero;
+import informacoesDeAcesso.Conta;
 import interatividades.CurtirDescurtir;
 import interatividades.EscolheFilme;
 import interatividades.Recomendacao;
 
 public class PessoaFisica extends Pessoa implements Recomendacao, EscolheFilme {
-
 	
 
 	public PessoaFisica(String nomeCompleto, String enderecoCompleto, Period idade, String eMail, String senha,
-			String chaveCadastro, boolean statusPagamento) {
-		super(nomeCompleto, enderecoCompleto, idade, eMail, senha, chaveCadastro, statusPagamento);
+			String chaveCadastro, boolean statusPagamento, List<Conta> contaSecundaria) {
+		super(nomeCompleto, enderecoCompleto, idade, eMail, senha, chaveCadastro, statusPagamento, contaSecundaria);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -175,6 +175,8 @@ public class PessoaFisica extends Pessoa implements Recomendacao, EscolheFilme {
 	public String toString() {
 		return "PessoaFisica [nomeCompleto=" + nomeCompleto + ", enderecoCompleto=" + enderecoCompleto + ", idade="
 				+ idade + ", eMail=" + eMail + ", senha=" + senha + ", chaveCadastro=" + chaveCadastro
-				+ ", statusPagamento=" + statusPagamento + "]";
+				+ ", statusPagamento=" + statusPagamento + ", contaSegundaria=" + contaSecundaria
+				+ ", numeroPefisConta=" + numeroPefisConta + "]";
 	}
+	
 }

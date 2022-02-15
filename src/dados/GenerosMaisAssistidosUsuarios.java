@@ -21,8 +21,7 @@ public class GenerosMaisAssistidosUsuarios {
 	private int contSuspense;
 	private int contOutros;
 
-	public void generosMaisAssistidosUsuario(List<FilmePlataforma> filmes, List<PessoaFisica> pessoaFisica,
-			int escolhaFilme, int secaoUsuario) {
+	public void generosMaisAssistidosUsuario(List<FilmePlataforma> filmes, int escolhaFilme, int secaoUsuario) {
 
 		if (filmes.get(escolhaFilme).getGenero() == Genero.ACAO.getDescricao()) {
 			contAcao++;
@@ -53,4 +52,78 @@ public class GenerosMaisAssistidosUsuarios {
 
 		}
 	}
+
+	public int getContAcao() {
+		return contAcao;
+	}
+
+	public void setContAcao(int contAcao) {
+		this.contAcao = contAcao;
+	}
+
+	public int getContAventura() {
+		return contAventura;
+	}
+
+	public void setContAventura(int contAventura) {
+		this.contAventura = contAventura;
+	}
+
+	public int getContCartoon() {
+		return contCartoon;
+	}
+
+	public void setContCartoon(int contCartoon) {
+		this.contCartoon = contCartoon;
+	}
+
+	public int getContDocumentario() {
+		return contDocumentario;
+	}
+
+	public void setContDocumentario(int contDocumentario) {
+		this.contDocumentario = contDocumentario;
+	}
+
+	public int getContDrama() {
+		return contDrama;
+	}
+
+	public void setContDrama(int contDrama) {
+		this.contDrama = contDrama;
+	}
+
+	public int getContIndependentes() {
+		return contIndependentes;
+	}
+
+	public void setContIndependentes(int contIndependentes) {
+		this.contIndependentes = contIndependentes;
+	}
+
+	public int getContRomance() {
+		return contRomance;
+	}
+
+	public void setContRomance(int contRomance) {
+		this.contRomance = contRomance;
+	}
+
+	public int getContSuspense() {
+		return contSuspense;
+	}
+
+	public void setContSuspense(int contSuspense) {
+		this.contSuspense = contSuspense;
+	}
+
+	public int getContOutros() {
+		return contOutros;
+	}
+
+	public void setContOutros(int contOutros) {
+		this.contOutros = contOutros;
+	}
+	
+	
 }

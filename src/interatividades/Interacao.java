@@ -9,7 +9,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import usuarios.PessoaFisica;
 
-@Data
+
 public class Interacao implements SugestaoUsuarios, CurtirDescurtir {
 
 	private String nomeFilmeSugerido;
@@ -94,4 +94,31 @@ public class Interacao implements SugestaoUsuarios, CurtirDescurtir {
 		}
 		return curtidasDescurtidas;
 	}
+
+	public String getNomeFilmeSugerido() {
+		return nomeFilmeSugerido;
+	}
+
+	public void setNomeFilmeSugerido(String nomeFilmeSugerido) {
+		this.nomeFilmeSugerido = nomeFilmeSugerido;
+	}
+
+	public String getNomeCompleto() {
+		return nomeCompleto;
+	}
+
+	public void setNomeCompleto(String nomeCompleto) {
+		this.nomeCompleto = nomeCompleto;
+	}
+
+	public int getCurtidasDescurtidas() {
+		return curtidasDescurtidas;
+	}
+
+	public void setCurtidasDescurtidas(int curtidasDescurtidas) {
+		this.curtidasDescurtidas = curtidasDescurtidas;
+	}
+	
+	
+	
 }
