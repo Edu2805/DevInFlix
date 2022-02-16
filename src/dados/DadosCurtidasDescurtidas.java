@@ -3,10 +3,10 @@ package dados;
 import java.util.List;
 
 import filmes.FilmePlataforma;
-import informacoesDeAcesso.Conta;
+import informacoesDeAcesso.ContaPerfis;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import usuarios.PessoaFisica;
+import usuarios.ContaPessoaFisica;
 
 @Data
 
@@ -18,12 +18,12 @@ public class DadosCurtidasDescurtidas {
 	private int indexSecaoUsuario;
 	private int indexSecaoFilme;
 
-	public void relatorioCurtidasConta(List<FilmePlataforma> filmes, List<PessoaFisica> pessoaFisica, int escolhaFilme,
+	public void relatorioCurtidasConta(List<FilmePlataforma> filmes, List<ContaPessoaFisica> pessoaFisica, int escolhaFilme,
 			int indexSecaoUsuario, int indexSecaoFilme) {
 
 		for (int i = indexSecaoUsuario; i < pessoaFisica.size(); i++) {
 
-			nomeUsuario = pessoaFisica.get(i).getNomeCompleto();
+			nomeUsuario = pessoaFisica.get(i).getNomeConta();
 			for (int j = 0; j < filmes.size(); j++) {
 
 				if ((escolhaFilme + 1) == filmes.get(j).getId()) {
@@ -35,12 +35,12 @@ public class DadosCurtidasDescurtidas {
 		}
 	}
 	
-	public void relatorioCurtidasPerfil(List<FilmePlataforma> filmes, List<Conta> pessoaFisica, int escolhaFilme,
+	public void relatorioCurtidasPerfil(List<FilmePlataforma> filmes, List<ContaPerfis> pessoaFisica, int escolhaFilme,
 			int indexSecaoUsuario, int indexSecaoFilme) {
 
 		for (int i = indexSecaoUsuario; i < pessoaFisica.size(); i++) {
 
-			nomeUsuario = pessoaFisica.get(i).getNome();
+			nomeUsuario = pessoaFisica.get(i).getNomePerfil();
 			for (int j = 0; j < filmes.size(); j++) {
 
 				if ((escolhaFilme + 1) == filmes.get(j).getId()) {

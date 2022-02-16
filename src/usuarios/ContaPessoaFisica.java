@@ -1,4 +1,4 @@
-package informacoesDeAcesso;
+package usuarios;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -6,53 +6,24 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 import filmes.FilmePlataforma;
 import generos.Genero;
+import informacoesDeAcesso.ContaPerfis;
+import interatividades.CurtirDescurtir;
 import interatividades.EscolheFilme;
 import interatividades.Recomendacao;
 
-public class Conta implements Recomendacao, EscolheFilme {
-
-	protected String nome;
-	protected String endereco;
-	protected Period idadeUsuario;
-	protected String eMail;
-	protected String senha;
-	protected String chaveCadastro;
-	protected boolean statusPagamento;
-
+public class ContaPessoaFisica extends Pessoa implements Recomendacao, EscolheFilme {
 	
 
-	public Conta(String nome, String endereco, Period idadeUsuario, String eMail, String senha, String chaveCadastro,
-			boolean statusPagamento) {
-		super();
-		this.nome = nome;
-		this.endereco = endereco;
-		this.idadeUsuario = idadeUsuario;
-		this.eMail = eMail;
-		this.senha = senha;
-		this.chaveCadastro = chaveCadastro;
-		this.statusPagamento = statusPagamento;
+	public ContaPessoaFisica(String nomeCompleto, String enderecoCompleto, Period idade, String eMail, String senha,
+			String chaveCadastroConta, boolean statusPagamento, List<ContaPerfis> contaSecundaria) {
+		super(nomeCompleto, enderecoCompleto, idade, eMail, senha, chaveCadastroConta, statusPagamento, contaSecundaria);
+		// TODO Auto-generated constructor stub
 	}
 
-	public Conta() {
-		
-	}
-	
-	public void perfilUsuario(int idadeUsuario, String eMail, String senha, boolean statusPagamento) {
-				
-		
-	}
-
-
-	public boolean verificaLogin () {
-		
-		
-		return statusPagamento;
-	}
-	
-	
 	@Override
 	public void usuarioRecomenda() {
 		Scanner sc = new Scanner(System.in);
@@ -164,7 +135,6 @@ public class Conta implements Recomendacao, EscolheFilme {
 					+ " para fazer uma nova recomendação!");
 			System.out.println("----------------------------------------------------------------------------");
 		}
-		
 	}
 
 	@Override
@@ -200,67 +170,13 @@ public class Conta implements Recomendacao, EscolheFilme {
 
 		return escolha;
 	}
-	
-	
-	public String geteMail() {
-		return eMail;
-	}
 
-
-	public void seteMail(String eMail) {
-		this.eMail = eMail;
-	}
-
-
-	public String getSenha() {
-		return senha;
-	}
-
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-
-
-	public boolean isStatusPagamento() {
-		return statusPagamento;
-	}
-
-
-	public void setStatusPagamento(boolean statusPagamento) {
-		this.statusPagamento = statusPagamento;
-	}
-
-	public Period getIdadeUsuario() {
-		return idadeUsuario;
-	}
-
-	public void setIdadeUsuario(Period idadeUsuario) {
-		this.idadeUsuario = idadeUsuario;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getEndereco() {
-		return endereco;
-	}
-
-	public void setEndereco(String endereco) {
-		this.endereco = endereco;
-	}
-
-	public String getChaveCadastro() {
-		return chaveCadastro;
-	}
-
-	public void setChaveCadastro(String chaveCadastro) {
-		this.chaveCadastro = chaveCadastro;
+	@Override
+	public String toString() {
+		return "PessoaFisica [nomeCompleto=" + nomeConta + ", enderecoCompleto=" + enderecoConta + ", idade="
+				+ idadeConta + ", eMail=" + eMailConta + ", senha=" + senhaConta + ", chaveCadastro=" + chaveCadastroConta
+				+ ", statusPagamento=" + statusPagamento + ", contaSecundaria=" + contaSecundaria
+				+ ", numeroPefisConta=" + numeroPefisConta + "]";
 	}
 
 	

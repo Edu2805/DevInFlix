@@ -7,7 +7,7 @@ import filmes.FilmeSugestaoUsuario;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import usuarios.PessoaFisica;
+import usuarios.ContaPessoaFisica;
 
 
 public class Interacao implements SugestaoUsuarios, CurtirDescurtir {

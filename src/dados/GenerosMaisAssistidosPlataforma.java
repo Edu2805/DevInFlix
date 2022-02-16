@@ -5,7 +5,7 @@ import java.util.List;
 import filmes.FilmePlataforma;
 import generos.Genero;
 import lombok.Data;
-import usuarios.PessoaFisica;
+import usuarios.ContaPessoaFisica;
 
 @Data
 public class GenerosMaisAssistidosPlataforma {

@@ -3,95 +3,95 @@ package usuarios;
 import java.time.Period;
 import java.util.List;
 
-import informacoesDeAcesso.Conta;
+import informacoesDeAcesso.ContaPerfis;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 
 public abstract class Pessoa {
 
-	protected String nomeCompleto;
-	protected String enderecoCompleto;
-	protected Period idade;
-	protected String eMail;
-	protected String senha;
-	protected String chaveCadastro;
+	protected String nomeConta;
+	protected String enderecoConta;
+	protected Period idadeConta;
+	protected String eMailConta;
+	protected String senhaConta;
+	protected String chaveCadastroConta;
 	protected boolean statusPagamento;
-	protected List<Conta> contaSecundaria;
+	protected List<ContaPerfis> contaSecundaria;
 	protected final int numeroPefisConta = 3;
 	
 	
 	public Pessoa(String nomeCompleto, String enderecoCompleto, Period idade, String eMail, String senha,
-			String chaveCadastro, boolean statusPagamento, List<Conta> contaSecundaria) {
+			String chaveCadastroConta, boolean statusPagamento, List<ContaPerfis> contaSecundaria) {
 		super();
-		this.nomeCompleto = nomeCompleto;
-		this.enderecoCompleto = enderecoCompleto;
-		this.idade = idade;
-		this.eMail = eMail;
-		this.senha = senha;
-		this.chaveCadastro = chaveCadastro;
+		this.nomeConta = nomeCompleto;
+		this.enderecoConta = enderecoCompleto;
+		this.idadeConta = idade;
+		this.eMailConta = eMail;
+		this.senhaConta = senha;
+		this.chaveCadastroConta = chaveCadastroConta;
 		this.statusPagamento = statusPagamento;
 		this.contaSecundaria = contaSecundaria;
 	}
 
 
-	public String getNomeCompleto() {
-		return nomeCompleto;
+	public String getNomeConta() {
+		return nomeConta;
 	}
 
 
-	public void setNomeCompleto(String nomeCompleto) {
-		this.nomeCompleto = nomeCompleto;
+	public void setNomeConta(String nomeCompleto) {
+		this.nomeConta = nomeCompleto;
 	}
 
 
-	public String getEnderecoCompleto() {
-		return enderecoCompleto;
+	public String getEnderecoConta() {
+		return enderecoConta;
 	}
 
 
-	public void setEnderecoCompleto(String enderecoCompleto) {
-		this.enderecoCompleto = enderecoCompleto;
+	public void setEnderecoConta(String enderecoCompleto) {
+		this.enderecoConta = enderecoCompleto;
 	}
 
 
-	public Period getIdade() {
-		return idade;
+	public Period getIdadeConta() {
+		return idadeConta;
 	}
 
 
-	public void setIdade(Period idade) {
-		this.idade = idade;
+	public void setIdadeConta(Period idade) {
+		this.idadeConta = idade;
 	}
 
 
-	public String geteMail() {
-		return eMail;
+	public String geteMailConta() {
+		return eMailConta;
 	}
 
 
-	public void seteMail(String eMail) {
-		this.eMail = eMail;
+	public void seteMailConta(String eMail) {
+		this.eMailConta = eMail;
 	}
 
 
-	public String getSenha() {
-		return senha;
+	public String getSenhaConta() {
+		return senhaConta;
 	}
 
 
-	public void setSenha(String senha) {
-		this.senha = senha;
+	public void setSenhaConta(String senha) {
+		this.senhaConta = senha;
 	}
 
 
-	public String getChaveCadastro() {
-		return chaveCadastro;
+	public String getChaveCadastroConta() {
+		return chaveCadastroConta;
 	}
 
 
-	public void setChaveCadastro(String chaveCadastro) {
-		this.chaveCadastro = chaveCadastro;
+	public void setChaveCadastroConta(String chaveCadastro) {
+		this.chaveCadastroConta = chaveCadastro;
 	}
 
 
@@ -105,12 +105,12 @@ public abstract class Pessoa {
 	}
 
 
-	public List<Conta> getContaSecundaria() {
+	public List<ContaPerfis> getContaSecundaria() {
 		return contaSecundaria;
 	}
 
 
-	public void setContaSecundaria(List<Conta> contaSecundaria) {
+	public void setContaSecundaria(List<ContaPerfis> contaSecundaria) {
 		this.contaSecundaria = contaSecundaria;
 	}
 
@@ -118,7 +118,5 @@ public abstract class Pessoa {
 	public int getNumeroPefisConta() {
 		return numeroPefisConta;
 	}
-	
-	
 	
 }

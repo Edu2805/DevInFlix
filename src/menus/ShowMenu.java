@@ -17,11 +17,11 @@ import filmes.FilmePlataforma;
 import filmes.FilmeSugestaoUsuario;
 import financeiro.Financeiro;
 import generos.Genero;
-import informacoesDeAcesso.Conta;
+import informacoesDeAcesso.ContaPerfis;
 import interatividades.Comentarios;
 import interatividades.Interacao;
 import usuarios.Pessoa;
-import usuarios.PessoaFisica;
+import usuarios.ContaPessoaFisica;
 
 public class ShowMenu implements FuncoesDoMenu {
 
@@ -29,8 +29,8 @@ public class ShowMenu implements FuncoesDoMenu {
 	public void menuUsuario() {
 		Scanner sc = new Scanner(System.in);
 
-		List<PessoaFisica> cadastroContas = new ArrayList<>();
-		List<Conta> cadastroPerfis = new ArrayList<>();
+		List<ContaPessoaFisica> cadastroContas = new ArrayList<>();
+		List<ContaPerfis> cadastroPerfis = new ArrayList<>();
 		Set<FilmeSugestaoUsuario> listaSugestoesDoUsuario = new LinkedHashSet<FilmeSugestaoUsuario>();
 		List<String> armazenaNomeUsuario = new ArrayList<>();
 		List<String> armazenaNomePerfil = new ArrayList<>();
@@ -49,8 +49,8 @@ public class ShowMenu implements FuncoesDoMenu {
 		Financeiro financeiro = new Financeiro();
 		Comentarios comentarios = new Comentarios();
 
-		Conta contaSecundaria = new Conta();
-		PessoaFisica contaPrincipal = new PessoaFisica(null, null, null, null, null, null, false, null);
+		ContaPerfis contaSecundaria = new ContaPerfis();
+		ContaPessoaFisica contaPrincipal = new ContaPessoaFisica(null, null, null, null, null, null, false, null);
 
 		int secaoUsuario = 0;
 		int controlaListaUsuarios = 0;
@@ -60,7 +60,9 @@ public class ShowMenu implements FuncoesDoMenu {
 		int escolhaFilmePerfil = 0;
 		int quantidadeVezesEscolhaFilme = 0;
 		int confirmacao = 0;
-
+		//teste
+		int cont = 0;
+		
 		String nomeConta = null;
 		String enderecoConta = null;
 		String enderecoDeEmailConta = null;
@@ -71,14 +73,14 @@ public class ShowMenu implements FuncoesDoMenu {
 		String enderecoDeEmailPerfil = null;
 		String senhaPerfil = null;
 		String dataFormatadaPerfil = null;
-		String chaveCadastro = null;
+		String chaveCadastroConta = null;
+		String chaveCadastroPerfil = null;
 		String chaveLogin = null;
 		String comentarioUsuario = null;
 		String comentarioPerfil = null;
 		String nomeUsuarioLista = null;
 
 		boolean pagamento = false;
-		boolean checkLogin = false;
 		boolean menuGeral = false;
 		boolean status = true;
 
@@ -152,7 +154,7 @@ public class ShowMenu implements FuncoesDoMenu {
 				boolean statusCadastroConta = false;
 				boolean statusCadastroPerfil = false;
 				int controlaNumeroDePerfis = 1;
-				
+
 				System.out.println(
 						"\nNo DevInFlix você pode cadastrar até três perfis de usuários, aproveite essa facilidade!\n");
 
@@ -183,8 +185,8 @@ public class ShowMenu implements FuncoesDoMenu {
 						}
 					}
 
-					//verificar se usuário já existe.....
-					
+					// verificar se usuário já existe.....
+
 					while (status) {
 						System.out.print("\nEntre com a data do seu nascimento: (dd/mm/aaaa): ");
 						String str = sc.nextLine();
@@ -222,7 +224,7 @@ public class ShowMenu implements FuncoesDoMenu {
 
 					if (confirmacao == 1) {
 
-						chaveCadastro = enderecoDeEmailConta.concat(senhaConta);
+						chaveCadastroConta = enderecoDeEmailConta.concat(senhaConta);
 
 						System.out.println(
 								"\nEscolha a forma de pagamento\n1- Cartão de crédito\n2- PIX\n3- Boleto\n4- Sair");
@@ -241,7 +243,7 @@ public class ShowMenu implements FuncoesDoMenu {
 						sc.nextLine();
 					}
 				}
-				
+
 				System.out.print(
 						"\nDeseja cadastrar perfis para essa conta? Você pode cadastrar até três perfis\n1- Sim\n2- NÃO\n-->");
 				int cadastroMaisUsuario = sc.nextInt();
@@ -253,14 +255,20 @@ public class ShowMenu implements FuncoesDoMenu {
 						if (controlaNumeroDePerfis >= contaPrincipal.getNumeroPefisConta()) {
 							System.out.println("\nVocê já atingiu o limite de dastros disponíveis por conta\n");
 							
+							// caso ultrapasse o numero máximo de cadastro de perfis, garante a instancia da conta e os perfis associados
+							contaPrincipal = new ContaPessoaFisica(nomeConta, enderecoConta, idadeUsuarioConta,
+									enderecoDeEmailConta, senhaConta, chaveCadastroConta, pagamento, cadastroPerfis);
+
+							cadastroContas.add(contaPrincipal);
+
 							break;
 
 						} else {
-							
+
 							while (controlaNumeroDePerfis <= contaPrincipal.getNumeroPefisConta()) {
 
 								System.out.println(controlaNumeroDePerfis);
-								
+
 								System.out.print("Digite o seu nome: ");
 								nomePerfil = sc.nextLine();
 
@@ -318,77 +326,95 @@ public class ShowMenu implements FuncoesDoMenu {
 								System.out.println("\nConfirme os seus dados");
 								System.out.println("Nome: " + nomePerfil + "\nEndereço: " + enderecoPerfil
 										+ "\nData de nascimento: " + dataFormatadaPerfil + "\nIdade: "
-										+ idadeUsuarioPerfil.getYears() + " anos\nE-mail: " + enderecoDeEmailPerfil + "\n");
+										+ idadeUsuarioPerfil.getYears() + " anos\nE-mail: " + enderecoDeEmailPerfil
+										+ "\n");
 								System.out.println(
 										"Seus dados estão corretos? Digite 1 para SIM ou 2 para NÃO\n1- SIM\n2- NÃO");
 								System.out.print("-->");
 								confirmacao = sc.nextInt();
 
 								if (confirmacao == 1) {
+									
+									
 									controlaNumeroDePerfis++;
 
-									chaveCadastro = enderecoDeEmailConta.concat(senhaPerfil);
-									contaSecundaria = new Conta(nomePerfil, enderecoPerfil, idadeUsuarioPerfil, enderecoDeEmailPerfil, senhaPerfil,
-											chaveCadastro, pagamento);
+									chaveCadastroPerfil = enderecoDeEmailPerfil.concat(senhaPerfil);
+									
+									System.out.println(chaveCadastroPerfil);
+									
+									
+									contaSecundaria = new ContaPerfis(nomePerfil, enderecoPerfil, idadeUsuarioPerfil,
+											enderecoDeEmailPerfil, senhaPerfil, chaveCadastroPerfil, pagamento);
 									cadastroPerfis.add(contaSecundaria);
 									
-									//indtancia a conta e associa o perfil a esta conta...
-									contaPrincipal = new PessoaFisica(nomeConta, enderecoConta, idadeUsuarioConta, enderecoDeEmailConta, senhaConta,
-											chaveCadastro, pagamento, cadastroPerfis);
-
-									cadastroContas.add(contaPrincipal); 
-
+									
+									
+									System.out.println(cadastroPerfis.get(cont).getChaveCadastroPerfil());
+									
+									cont++;
+									
 									System.out.println("Deseja cadastrar mais um perfil?\n1- SIM\n2- NÃO");
 									System.out.print("-->");
 									cadastroMaisUsuario = sc.nextInt();
 
 									if (cadastroMaisUsuario == 1) {
-										
+
 										statusCadastroPerfil = false;
 										sc.nextLine();
 
 									} else {
 										
+										// instancia a conta e associa o perfil a esta conta...
+										contaPrincipal = new ContaPessoaFisica(nomeConta, enderecoConta, idadeUsuarioConta,
+												enderecoDeEmailConta, senhaConta, chaveCadastroConta, pagamento, cadastroPerfis);
+
+										cadastroContas.add(contaPrincipal);
+										
 										statusCadastroPerfil = true;
 										break;
 									}
-									
+
 								} else {
 									sc.nextLine();
-									//retorna para realizar o cadastro novamente...
-									
+									// retorna para realizar o cadastro novamente...
+
 								}
 							}
 
 						}
 
 					} else {
-						
-						//Caso não deseja cadastrar nenhum perfil
-						contaPrincipal = new PessoaFisica(nomeConta, enderecoConta, idadeUsuarioConta, enderecoDeEmailConta, senhaConta,
-								chaveCadastro, pagamento, null);
+
+						// Caso não deseja cadastrar nenhum perfil
+						contaPrincipal = new ContaPessoaFisica(nomeConta, enderecoConta, idadeUsuarioConta,
+								enderecoDeEmailConta, senhaConta, chaveCadastroConta, pagamento, null);
 
 						cadastroContas.add(contaPrincipal);
 						statusCadastroPerfil = true;
-						
+
 					}
 				}
-				
-				//Testes
-//				for (int i = 0; i < cadastroContas.size(); i++) {
-//		
-//					for (int j = 0; j < cadastroPerfis.size(); j++) {
-//						
-//						System.out.println("Conta: " + cadastroContas.get(i).getNomeCompleto() + ", Perfil: " + cadastroPerfis.get(j).getNome());
-//						
-//					}
-//				}
+
+				// Testes
+				for (ContaPessoaFisica conta : cadastroContas) {
+					
+					for (ContaPerfis perfil : cadastroPerfis) {
+						
+						
+						System.out.println("Senhas das contas: " + conta.getChaveCadastroConta());
+						System.out.println("Senhas dos perfis: " + perfil.getChaveCadastroPerfil());
+						
+					}
+					
+				}
 				
 				break;
 
 //#####################################################################################################################################################
 
 			case 2:
+				boolean checkLoginConta = false;
+				boolean checkLoginPerfil = false;
 
 				while (true) {
 
@@ -401,52 +427,64 @@ public class ShowMenu implements FuncoesDoMenu {
 					chaveLogin = emailLogin.concat(senhaLogin);
 
 					for (int i = 0; i < cadastroContas.size(); i++) {
+						
+						
+						//verificar menssagem de dados de login incorretos mesmo que os dados estejam corretos
+						if (cadastroContas.get(i).getChaveCadastroConta().equals(chaveLogin)) {
 
-						if (cadastroContas.get(i).getChaveCadastro().equals(chaveLogin)) {
-
-							System.out.println("Está com " + cadastroContas.get(i).getNomeCompleto());
+							//System.out.println("Está com " + cadastroContas.get(i).getNomeCompleto());
 
 							secaoUsuario = i;
-							checkLogin = true;
+							checkLoginPerfil = false;
+							checkLoginConta = true;
+							
 							break;
 
 						} else {
 
-							checkLogin = false;
+							checkLoginConta = false;
 						}
 
 					}
+					
+					//por mais uma condição aqui
 
 					for (int j = 0; j < cadastroPerfis.size(); j++) {
 
-						if (cadastroPerfis.get(j).getChaveCadastro().equals(chaveLogin)) {
-
-							System.out.println("Está com " + cadastroPerfis.get(j).getNome());
+						if (cadastroPerfis.get(j).getChaveCadastroPerfil().equals(chaveLogin)) {
+							
+							System.out.println("Está com " + cadastroPerfis.get(j).getNomePerfil());
 
 							secaoUsuario = j;
-							checkLogin = true;
+							checkLoginConta = false;
+							checkLoginPerfil = true;
+							
 							break;
 
 						} else {
 
-							checkLogin = false;
+							checkLoginPerfil = false;
 
 						}
 
 					}
-					if (checkLogin == true) {
+					
+					//não está quebrando...
+					if (checkLoginConta == true || checkLoginPerfil == true) {
 						break;
 					}
 
 				}
 
-				if (checkLogin) {
+				if (checkLoginConta == true) {
 
+					
 					for (int i = 0; i < cadastroContas.size(); i++) {
 
-						if (cadastroContas.get(i).getChaveCadastro().equals(chaveLogin)) {
+						
+						if (cadastroContas.get(i).getChaveCadastroConta().equals(chaveLogin)) {
 
-							System.out.println("Está com " + cadastroContas.get(i).getNomeCompleto());
+							System.out.println("Está com " + cadastroContas.get(i).getNomeConta());
 
 							System.out.println(
 									"--------------------------------------------------------------------------------------------------");
@@ -481,24 +519,23 @@ public class ShowMenu implements FuncoesDoMenu {
 								escolhaFilmesDaLista.add(harryPotter);
 
 								boolean stopWhileNovoFilme = false;
-								//while (!stopWhileNovoFilme) {
+								// while (!stopWhileNovoFilme) {
 
-									for (int k = secaoUsuario; k < cadastroContas.size(); k++) {
+								for (int k = secaoUsuario; k < cadastroContas.size(); k++) {
 
-										System.out.print("Olá " + cadastroContas.get(k).getNomeCompleto()
-												+ ", escolha um dos filmes para você assistir: ");
-										escolhaFilme = sc.nextInt() - 1;
-										sc.nextLine();
+									System.out.print("Olá " + cadastroContas.get(k).getNomeConta()
+											+ ", escolha um dos filmes para você assistir: ");
+									escolhaFilme = sc.nextInt() - 1;
+									sc.nextLine();
 
-										contaPrincipal.escolhaDoFilme(escolhaFilmesDaLista, escolhaFilme);
-										generosMaisUsuarios.generosMaisAssistidosUsuario(escolhaFilmesDaLista,
-												escolhaFilme, secaoUsuario);
-										generosMaisPlataforma.generosMaisAssistidosPlataforma(escolhaFilmesDaLista,
-												escolhaFilme, secaoUsuario);
+									contaPrincipal.escolhaDoFilme(escolhaFilmesDaLista, escolhaFilme);
+									generosMaisUsuarios.generosMaisAssistidosUsuario(escolhaFilmesDaLista, escolhaFilme,
+											secaoUsuario);
+									generosMaisPlataforma.generosMaisAssistidosPlataforma(escolhaFilmesDaLista,
+											escolhaFilme, secaoUsuario);
 
-										quantidadeVezesEscolhaFilme++;
-										
-										
+									quantidadeVezesEscolhaFilme++;
+
 //										System.out.println("\nDeseja escolher mais algum filme?1- SIM, 2- NÃO");
 //										System.out.print("-->");
 //										int maisFilmes = sc.nextInt();
@@ -512,144 +549,149 @@ public class ShowMenu implements FuncoesDoMenu {
 //										} else {
 //											System.out.println("\nPor gentileza, digite uma opção válida.\n");
 //										}
-										break;
-									}
+									break;
+								}
 
-									for (int k = secaoUsuario; k < cadastroContas.size(); k++) {
+								for (int k = secaoUsuario; k < cadastroContas.size(); k++) {
 
-										exibeCampoSugestaoUsuario.likeDeslike(cadastroContas.get(k).getNomeCompleto());
+									exibeCampoSugestaoUsuario.likeDeslike(cadastroContas.get(k).getNomeConta());
 
-										break;
-									}
+									break;
+								}
 
-									// Exibe a lista de usuários, para que o usuário da secao possa escolher outros
-									// usuários para indicar filmes
-									
-									
-		//#### está repetinfo o próprio usuário ####
-									int escolha = 0;
-									boolean usuarioRecomenda = true;
-									boolean stopWhileRecomenda = true;
-									int controleEnunciado = secaoUsuario;
+								// Exibe a lista de usuários, para que o usuário da secao possa escolher outros
+								// usuários para indicar filmes
 
-									while (usuarioRecomenda) {
+								// #### está repetinfo o próprio usuário ####
+								int escolha = 0;
+								boolean usuarioRecomenda = true;
+								boolean stopWhileRecomenda = true;
+								int controleEnunciado = secaoUsuario;
 
-										if (cadastroContas.size() > 1) {
+								while (usuarioRecomenda) {
 
-											for (int k = controlaListaUsuarios; k < cadastroContas.size(); k++) {
-												if (secaoUsuario == k) {
-													/**
-													 * Impede que o usuário vizualize ele mesmo para recomendar filmes,
-													 * permite que o indice dele nao seja exibido enquanto usa o sistema
-													 */
+									if (cadastroContas.size() > 1) {
 
-												} else {
+										for (int k = controlaListaUsuarios; k < cadastroContas.size(); k++) {
+											if (secaoUsuario == k) {
+												/**
+												 * Impede que o usuário vizualize ele mesmo para recomendar filmes,
+												 * permite que o indice dele nao seja exibido enquanto usa o sistema
+												 */
 
-													if (controleEnunciado == secaoUsuario) {
+											} else {
 
-														System.out.println(
-																"----------------------------------------------------------------------------\n");
-														System.out.println(
-																"Agora precisamos que você selecione um dos usuários listados abaixo e faça uma recomendação de filme\n");
-														System.out.println(
-																"Lembrando que você só pode fazer uma recomendação por mês :)");
-													}
-													controleEnunciado++;
+												if (controleEnunciado == secaoUsuario) {
 
-													for (int l = k; l < cadastroContas.size();) {
+													System.out.println(
+															"----------------------------------------------------------------------------\n");
+													System.out.println(
+															"Agora precisamos que você selecione um dos usuários listados abaixo e faça uma recomendação de filme\n");
+													System.out.println(
+															"Lembrando que você só pode fazer uma recomendação por mês :)");
+												}
+												controleEnunciado++;
 
-														nomeUsuarioLista = cadastroContas.get(l).getNomeCompleto();
+												for (int l = k; l < cadastroContas.size();) {
 
-														System.out.println((l + 1) + "- " + nomeUsuarioLista);
-														controleLista = 2;
-														usuarioRecomenda = false;
-														break;
+													nomeUsuarioLista = cadastroContas.get(l).getNomeConta();
 
-													}
+													System.out.println((l + 1) + "- " + nomeUsuarioLista);
+													controleLista = 2;
+													usuarioRecomenda = false;
+													break;
 
 												}
+
 											}
-
-										} else {
-											break;
-										}
-
-									}
-
-									if (controleLista == 2) {
-										System.out.print("-->");
-										escolha = sc.nextInt();
-
-										for (int l = 0; l < cadastroContas.size(); l++) {
-											if (escolha <= cadastroContas.size()) {
-												System.out.println("Você escolheu "
-														+ cadastroContas.get(escolha - 1).getNomeCompleto());
-												System.out.println(
-														"----------------------------------------------------------------------------");
-
-												contaPrincipal.usuarioRecomenda();
-
-												stopWhileRecomenda = false;
-												break;
-											} else {
-												System.out.println(
-														"\nPor gentileza, digite um número correspondente a lista de usuários.\n");
-											}
-											break;
-										}
-									}
-									stopWhileRecomenda = false;
-									
-								//}
-									
-									System.out.println(
-											"\nDeseja fazer um comentário do filme que você acabou de assisti?\n1- SIM\n2- Não\n-->");
-
-									int fazerComentario = sc.nextInt();
-
-									if (fazerComentario == 1) {
-
-										for (int k = secaoUsuario; k < cadastroContas.size(); k++) {
-
-											System.out.print("Digite o seu comentário: ");
-
-											comentarios.fazerComentarioFilme();
-											comentarioUsuario = comentarios.getComentario();
-
-											break;
 										}
 
 									} else {
-
-										System.out.println("\nMuito obrigado por usar o DevInFlix\n");
+										break;
 									}
 
-									System.out.println(
-											"\n----------------------------------------------------------------------------\n");
+								}
 
-									// secaoUsuario = i;
-									checkLogin = true;
-									break;
+								if (controleLista == 2) {
+									System.out.print("-->");
+									escolha = sc.nextInt();
+
+									for (int l = 0; l < cadastroContas.size(); l++) {
+										if (escolha <= cadastroContas.size()) {
+											System.out.println("Você escolheu "
+													+ cadastroContas.get(escolha - 1).getNomeConta());
+											System.out.println(
+													"----------------------------------------------------------------------------");
+
+											contaPrincipal.usuarioRecomenda();
+
+											stopWhileRecomenda = false;
+											break;
+										} else {
+											System.out.println(
+													"\nPor gentileza, digite um número correspondente a lista de usuários.\n");
+										}
+										break;
+									}
+								}
+								stopWhileRecomenda = false;
+
+								// }
+
+								System.out.println(
+										"\nDeseja fazer um comentário do filme que você acabou de assisti?\n1- SIM\n2- Não\n-->");
+
+								int fazerComentario = sc.nextInt();
+
+								if (fazerComentario == 1) {
+
+									for (int k = secaoUsuario; k < cadastroContas.size(); k++) {
+
+										System.out.print("Digite o seu comentário: ");
+
+										comentarios.fazerComentarioFilme();
+										comentarioUsuario = comentarios.getComentario();
+
+										break;
+									}
+
+								} else {
+
+									System.out.println("\nMuito obrigado por usar o DevInFlix\n");
+								}
+
+								System.out.println(
+										"\n----------------------------------------------------------------------------\n");
+
+								// secaoUsuario = i;
+								checkLoginConta = true;
+								break;
 							}
 
 						} else {
 							System.out.println("\nDados de login incorretos, tente novamente!");
-							checkLogin = false;
+							checkLoginConta = false;
 
 						}
-						
-						
-					}
 
-					//Perfil
+					}
 					
-					// conta principal está entrando aqui também, fazer um if para barrar essa entrada
-					
+					checkLoginPerfil = false;
+					chaveLogin = null;
+				}
+				
+				
+				// Perfil
+
+				// conta principal está entrando aqui também, fazer um if para barrar essa
+				// entrada
+
+				if (checkLoginPerfil == true) {
 					for (int i = 0; i < cadastroPerfis.size(); i++) {
 
-						if (cadastroPerfis.get(i).getChaveCadastro().equals(chaveLogin)) {
+						if (cadastroPerfis.get(i).getChaveCadastroPerfil().equals(chaveLogin)) {
 
-							System.out.println("Está com " + cadastroPerfis.get(i).getNome());
+							System.out.println("Está com " + cadastroPerfis.get(i).getNomePerfil());
 
 							System.out.println(
 									"--------------------------------------------------------------------------------------------------");
@@ -684,26 +726,25 @@ public class ShowMenu implements FuncoesDoMenu {
 								escolhaFilmesDaLista.add(harryPotter);
 
 								boolean stopWhileNovoFilme = false;
-								//while (!stopWhileNovoFilme) {
+								// while (!stopWhileNovoFilme) {
 
-									for (int k = secaoUsuario; k < cadastroPerfis.size(); k++) {
+								for (int k = secaoUsuario; k < cadastroPerfis.size(); k++) {
 
-										System.out.print("Olá " + cadastroPerfis.get(k).getNome()
-												+ ", escolha um dos filmes para você assistir: ");
-										escolhaFilme = sc.nextInt() - 1;
-										sc.nextLine();
+									System.out.print("Olá " + cadastroPerfis.get(k).getNomePerfil()
+											+ ", escolha um dos filmes para você assistir: ");
+									escolhaFilme = sc.nextInt() - 1;
+									sc.nextLine();
 
-										//metodo escolha filme
-										
-										contaSecundaria.escolhaDoFilme(escolhaFilmesDaLista, escolhaFilme);
-										generosMaisUsuarios.generosMaisAssistidosUsuario(escolhaFilmesDaLista,
-												escolhaFilme, secaoUsuario);
-										generosMaisPlataforma.generosMaisAssistidosPlataforma(escolhaFilmesDaLista,
-												escolhaFilme, secaoUsuario);
+									// metodo escolha filme
 
-										quantidadeVezesEscolhaFilme++;
-										
-										
+									contaSecundaria.escolhaDoFilme(escolhaFilmesDaLista, escolhaFilme);
+									generosMaisUsuarios.generosMaisAssistidosUsuario(escolhaFilmesDaLista, escolhaFilme,
+											secaoUsuario);
+									generosMaisPlataforma.generosMaisAssistidosPlataforma(escolhaFilmesDaLista,
+											escolhaFilme, secaoUsuario);
+
+									quantidadeVezesEscolhaFilme++;
+
 //										System.out.println("\nDeseja escolher mais algum filme?1- SIM, 2- NÃO");
 //										System.out.print("-->");
 //										int maisFilmes = sc.nextInt();
@@ -717,137 +758,140 @@ public class ShowMenu implements FuncoesDoMenu {
 //										} else {
 //											System.out.println("\nPor gentileza, digite uma opção válida.\n");
 //										}
-										break;
-									}
+									break;
+								}
 
-									for (int k = secaoUsuario; k < cadastroPerfis.size(); k++) {
+								for (int k = secaoUsuario; k < cadastroPerfis.size(); k++) {
 
-										exibeCampoSugestaoUsuario.likeDeslike(cadastroPerfis.get(k).getNome());
+									exibeCampoSugestaoUsuario.likeDeslike(cadastroPerfis.get(k).getNomePerfil());
 
-										break;
-									}
+									break;
+								}
 
-									// Exibe a lista de usuários, para que o usuário da secao possa escolher outros
-									// usuários para indicar filmes
-									int escolha = 0;
-									boolean usuarioRecomenda = true;
-									boolean stopWhileRecomenda = true;
-									int controleEnunciado = secaoUsuario;
+								// Exibe a lista de usuários, para que o usuário da secao possa escolher outros
+								// usuários para indicar filmes
+								int escolha = 0;
+								boolean usuarioRecomenda = true;
+								boolean stopWhileRecomenda = true;
+								int controleEnunciado = secaoUsuario;
 
-									while (usuarioRecomenda) {
+								while (usuarioRecomenda) {
 
-										if (cadastroPerfis.size() > 1) {
+									if (cadastroPerfis.size() > 1) {
 
-											for (int k = controlaListaUsuarios; k < cadastroPerfis.size(); k++) {
-												if (secaoUsuario == k) {
-													/**
-													 * Impede que o usuário vizualize ele mesmo para recomendar filmes,
-													 * permite que o indice dele nao seja exibido enquanto usa o sistema
-													 */
+										for (int k = controlaListaUsuarios; k < cadastroPerfis.size(); k++) {
+											if (secaoUsuario == k) {
+												/**
+												 * Impede que o usuário vizualize ele mesmo para recomendar filmes,
+												 * permite que o indice dele nao seja exibido enquanto usa o sistema
+												 */
 
-												} else {
+											} else {
 
-													if (controleEnunciado == secaoUsuario) {
+												if (controleEnunciado == secaoUsuario) {
 
-														System.out.println(
-																"----------------------------------------------------------------------------\n");
-														System.out.println(
-																"Agora precisamos que você selecione um dos usuários listados abaixo e faça uma recomendação de filme\n");
-														System.out.println(
-																"Lembrando que você só pode fazer uma recomendação por mês :)");
-													}
-													controleEnunciado++;
+													System.out.println(
+															"----------------------------------------------------------------------------\n");
+													System.out.println(
+															"Agora precisamos que você selecione um dos usuários listados abaixo e faça uma recomendação de filme\n");
+													System.out.println(
+															"Lembrando que você só pode fazer uma recomendação por mês :)");
+												}
+												controleEnunciado++;
 
-													for (int l = k; l < cadastroPerfis.size();) {
+												for (int l = k; l < cadastroPerfis.size();) {
 
-														nomeUsuarioLista = cadastroPerfis.get(l).getNome();
+													nomeUsuarioLista = cadastroPerfis.get(l).getNomePerfil();
 
-														System.out.println((l + 1) + "- " + nomeUsuarioLista);
-														controleLista = 2;
-														usuarioRecomenda = false;
-														break;
-
-													}
+													System.out.println((l + 1) + "- " + nomeUsuarioLista);
+													controleLista = 2;
+													usuarioRecomenda = false;
+													break;
 
 												}
+
 											}
-
-										} else {
-											break;
-										}
-
-									}
-
-									if (controleLista == 2) {
-										System.out.print("-->");
-										escolha = sc.nextInt();
-
-										for (int l = 0; l < cadastroPerfis.size(); l++) {
-											if (escolha <= cadastroPerfis.size()) {
-												System.out.println("Você escolheu "
-														+ cadastroPerfis.get(escolha - 1).getNome());
-												System.out.println(
-														"----------------------------------------------------------------------------");
-
-												contaSecundaria.usuarioRecomenda();
-
-												stopWhileRecomenda = false;
-												break;
-											} else {
-												System.out.println(
-														"\nPor gentileza, digite um número correspondente a lista de usuários.\n");
-											}
-											break;
-										}
-									}
-									stopWhileRecomenda = false;
-									
-								//}
-									
-									System.out.println(
-											"\nDeseja fazer um comentário do filme que você acabou de assisti?\n1- SIM\n2- Não\n-->");
-
-									int fazerComentario = sc.nextInt();
-
-									if (fazerComentario == 1) {
-
-										for (int k = secaoUsuario; k < cadastroPerfis.size(); k++) {
-
-											System.out.print("Digite o seu comentário: ");
-
-											comentarios.fazerComentarioFilme();
-											comentarioUsuario = comentarios.getComentario();
-
-											break;
 										}
 
 									} else {
-
-										System.out.println("\nMuito obrigado por usar o DevInFlix\n");
+										break;
 									}
 
-									System.out.println(
-											"\n----------------------------------------------------------------------------\n");
+								}
 
-									// secaoUsuario = i;
-									checkLogin = true;
-									break;
+								if (controleLista == 2) {
+									System.out.print("-->");
+									escolha = sc.nextInt();
+
+									for (int l = 0; l < cadastroPerfis.size(); l++) {
+										if (escolha <= cadastroPerfis.size()) {
+											System.out.println(
+													"Você escolheu " + cadastroPerfis.get(escolha - 1).getNomePerfil());
+											System.out.println(
+													"----------------------------------------------------------------------------");
+
+											contaSecundaria.usuarioRecomenda();
+
+											stopWhileRecomenda = false;
+											break;
+										} else {
+											System.out.println(
+													"\nPor gentileza, digite um número correspondente a lista de usuários.\n");
+										}
+										break;
+									}
+								}
+								stopWhileRecomenda = false;
+
+								// }
+
+								System.out.println(
+										"\nDeseja fazer um comentário do filme que você acabou de assisti?\n1- SIM\n2- Não\n-->");
+
+								int fazerComentario = sc.nextInt();
+
+								if (fazerComentario == 1) {
+
+									for (int k = secaoUsuario; k < cadastroPerfis.size(); k++) {
+
+										System.out.print("Digite o seu comentário: ");
+
+										comentarios.fazerComentarioFilme();
+										comentarioUsuario = comentarios.getComentario();
+
+										break;
+									}
+
+								} else {
+
+									System.out.println("\nMuito obrigado por usar o DevInFlix\n");
+								}
+
+								System.out.println(
+										"\n----------------------------------------------------------------------------\n");
+
+								// secaoUsuario = i;
+								checkLoginPerfil = true;
+								break;
 							}
 
 						} else {
 							System.out.println("\nDados de login incorretos, tente novamente!");
-							checkLogin = false;
+							checkLoginPerfil = false;
 
 						}
-						
-						
-					}
 
-
-					if (checkLogin == true) {
-						break;
 					}
+					
+					checkLoginConta = false;
+					chaveLogin = null;
+
 				}
+				
+				
+//				if (checkLoginConta == true || checkLoginPerfil == true) {
+//					break;
+//				}
 
 				break;
 

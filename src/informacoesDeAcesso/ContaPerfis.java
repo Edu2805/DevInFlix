@@ -1,4 +1,4 @@
-package usuarios;
+package informacoesDeAcesso;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -6,24 +6,53 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 
 import filmes.FilmePlataforma;
 import generos.Genero;
-import informacoesDeAcesso.Conta;
-import interatividades.CurtirDescurtir;
 import interatividades.EscolheFilme;
 import interatividades.Recomendacao;
 
-public class PessoaFisica extends Pessoa implements Recomendacao, EscolheFilme {
+public class ContaPerfis implements Recomendacao, EscolheFilme {
+
+	protected String nomePerfil;
+	protected String enderecoPerfil;
+	protected Period idadePerfil;
+	protected String eMailPerfil;
+	protected String senhaPerfil;
+	protected String chaveCadastroPerfil;
+	protected boolean statusPagamento;
+
 	
 
-	public PessoaFisica(String nomeCompleto, String enderecoCompleto, Period idade, String eMail, String senha,
-			String chaveCadastro, boolean statusPagamento, List<Conta> contaSecundaria) {
-		super(nomeCompleto, enderecoCompleto, idade, eMail, senha, chaveCadastro, statusPagamento, contaSecundaria);
-		// TODO Auto-generated constructor stub
+	public ContaPerfis(String nome, String endereco, Period idadeUsuario, String eMail, String senha, String chaveCadastro,
+			boolean statusPagamento) {
+		super();
+		this.nomePerfil = nome;
+		this.enderecoPerfil = endereco;
+		this.idadePerfil = idadeUsuario;
+		this.eMailPerfil = eMail;
+		this.senhaPerfil = senha;
+		this.chaveCadastroPerfil = chaveCadastro;
+		this.statusPagamento = statusPagamento;
 	}
 
+	public ContaPerfis() {
+		
+	}
+	
+	public void perfilUsuario(int idadeUsuario, String eMail, String senha, boolean statusPagamento) {
+				
+		
+	}
+
+
+	public boolean verificaLogin () {
+		
+		
+		return statusPagamento;
+	}
+	
+	
 	@Override
 	public void usuarioRecomenda() {
 		Scanner sc = new Scanner(System.in);
@@ -135,6 +164,7 @@ public class PessoaFisica extends Pessoa implements Recomendacao, EscolheFilme {
 					+ " para fazer uma nova recomendação!");
 			System.out.println("----------------------------------------------------------------------------");
 		}
+		
 	}
 
 	@Override
@@ -170,13 +200,69 @@ public class PessoaFisica extends Pessoa implements Recomendacao, EscolheFilme {
 
 		return escolha;
 	}
-
-	@Override
-	public String toString() {
-		return "PessoaFisica [nomeCompleto=" + nomeCompleto + ", enderecoCompleto=" + enderecoCompleto + ", idade="
-				+ idade + ", eMail=" + eMail + ", senha=" + senha + ", chaveCadastro=" + chaveCadastro
-				+ ", statusPagamento=" + statusPagamento + ", contaSegundaria=" + contaSecundaria
-				+ ", numeroPefisConta=" + numeroPefisConta + "]";
+	
+	
+	public String geteMailPerfil() {
+		return eMailPerfil;
 	}
+
+
+	public void seteMailPerfil(String eMail) {
+		this.eMailPerfil = eMail;
+	}
+
+
+	public String getSenhaPerfil() {
+		return senhaPerfil;
+	}
+
+
+	public void setSenhaPerfil(String senha) {
+		this.senhaPerfil = senha;
+	}
+
+
+	public boolean isStatusPagamento() {
+		return statusPagamento;
+	}
+
+
+	public void setStatusPagamento(boolean statusPagamento) {
+		this.statusPagamento = statusPagamento;
+	}
+
+	public Period getIdadePerfil() {
+		return idadePerfil;
+	}
+
+	public void setIdadePerfil(Period idadeUsuario) {
+		this.idadePerfil = idadeUsuario;
+	}
+
+	public String getNomePerfil() {
+		return nomePerfil;
+	}
+
+	public void setNomePerfil(String nome) {
+		this.nomePerfil = nome;
+	}
+
+	public String getEnderecoPerfil() {
+		return enderecoPerfil;
+	}
+
+	public void setEnderecoPerfil(String endereco) {
+		this.enderecoPerfil = endereco;
+	}
+
+	public String getChaveCadastroPerfil() {
+		return chaveCadastroPerfil;
+	}
+
+	public void setChaveCadastroPerfil(String chaveCadastro) {
+		this.chaveCadastroPerfil = chaveCadastro;
+	}
+
+	
 	
 }

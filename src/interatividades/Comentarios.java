@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Scanner;
 
 import filmes.FilmePlataforma;
-import informacoesDeAcesso.Conta;
-import usuarios.PessoaFisica;
+import informacoesDeAcesso.ContaPerfis;
+import usuarios.ContaPessoaFisica;
 
 public class Comentarios {
 
@@ -27,24 +27,24 @@ public class Comentarios {
 		return this.comentario = comentario;
 	}
 
-	public void filmesComentadosConta(List<FilmePlataforma> filmes, List<PessoaFisica> pessoaFisica,
+	public void filmesComentadosConta(List<FilmePlataforma> filmes, List<ContaPessoaFisica> pessoaFisica,
 			String comentario, int escolhaFilme, int secaoUsuario) {
 
 		for (int i = secaoUsuario; i < pessoaFisica.size(); i++) {
 
-			System.out.print(pessoaFisica.get(i).getNomeCompleto() + " comentou sobre o filme "
+			System.out.print(pessoaFisica.get(i).getNomeConta() + " comentou sobre o filme "
 					+ filmes.get(escolhaFilme).getNome() + ": ");
 			System.out.println(comentario);
 
 		}
 	}
 
-	public void filmesComentadosPerfil(List<FilmePlataforma> filmes, List<Conta> pessoaFisica, String comentario,
+	public void filmesComentadosPerfil(List<FilmePlataforma> filmes, List<ContaPerfis> pessoaFisica, String comentario,
 			int escolhaFilme, int secaoUsuario) {
 
 		for (int i = secaoUsuario; i < pessoaFisica.size(); i++) {
 
-			System.out.print(pessoaFisica.get(i).getNome() + " comentou sobre o filme "
+			System.out.print(pessoaFisica.get(i).getNomePerfil() + " comentou sobre o filme "
 					+ filmes.get(escolhaFilme).getNome() + ": ");
 			System.out.println(comentario);
 
