@@ -7,8 +7,6 @@ import generos.Genero;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@Data
-@AllArgsConstructor
 public class SomaGenerosPlataforma {
 
 	private int acao;
@@ -20,6 +18,20 @@ public class SomaGenerosPlataforma {
 	private int independentes;
 	private int suspense;
 	private int outros;
+
+	public SomaGenerosPlataforma(int acao, int aventura, int romance, int cartoon, int drama, int documentario,
+			int independentes, int suspense, int outros) {
+		super();
+		this.acao = acao;
+		this.aventura = aventura;
+		this.romance = romance;
+		this.cartoon = cartoon;
+		this.drama = drama;
+		this.documentario = documentario;
+		this.independentes = independentes;
+		this.suspense = suspense;
+		this.outros = outros;
+	}
 
 	public int generoMaisPlataforma() {
 
@@ -52,4 +64,78 @@ public class SomaGenerosPlataforma {
 		return maiorNumeroPlataforma;
 	}
 
+	public int getAcao() {
+		return acao;
+	}
+
+	public void setAcao(int acao) {
+		this.acao = acao;
+	}
+
+	public int getAventura() {
+		return aventura;
+	}
+
+	public void setAventura(int aventura) {
+		this.aventura = aventura;
+	}
+
+	public int getRomance() {
+		return romance;
+	}
+
+	public void setRomance(int romance) {
+		this.romance = romance;
+	}
+
+	public int getCartoon() {
+		return cartoon;
+	}
+
+	public void setCartoon(int cartoon) {
+		this.cartoon = cartoon;
+	}
+
+	public int getDrama() {
+		return drama;
+	}
+
+	public void setDrama(int drama) {
+		this.drama = drama;
+	}
+
+	public int getDocumentario() {
+		return documentario;
+	}
+
+	public void setDocumentario(int documentario) {
+		this.documentario = documentario;
+	}
+
+	public int getIndependentes() {
+		return independentes;
+	}
+
+	public void setIndependentes(int independentes) {
+		this.independentes = independentes;
+	}
+
+	public int getSuspense() {
+		return suspense;
+	}
+
+	public void setSuspense(int suspense) {
+		this.suspense = suspense;
+	}
+
+	public int getOutros() {
+		return outros;
+	}
+
+	public void setOutros(int outros) {
+		this.outros = outros;
+	}
+
+	
+	
 }

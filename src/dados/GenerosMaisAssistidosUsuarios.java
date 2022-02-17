@@ -8,7 +8,7 @@ import generos.Genero;
 import lombok.Data;
 import usuarios.ContaPessoaFisica;
 
-@Data
+
 public class GenerosMaisAssistidosUsuarios {
 
 	private int contAcao;

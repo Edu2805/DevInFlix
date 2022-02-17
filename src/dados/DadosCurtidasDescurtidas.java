@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import usuarios.ContaPessoaFisica;
 
-@Data
 
 public class DadosCurtidasDescurtidas {
 
@@ -51,4 +50,45 @@ public class DadosCurtidasDescurtidas {
 			}
 		}
 	}
+
+	public String getNomeUsuario() {
+		return nomeUsuario;
+	}
+
+	public void setNomeUsuario(String nomeUsuario) {
+		this.nomeUsuario = nomeUsuario;
+	}
+
+	public String getNomeFilme() {
+		return nomeFilme;
+	}
+
+	public void setNomeFilme(String nomeFilme) {
+		this.nomeFilme = nomeFilme;
+	}
+
+	public int getEscolhaFilme() {
+		return escolhaFilme;
+	}
+
+	public void setEscolhaFilme(int escolhaFilme) {
+		this.escolhaFilme = escolhaFilme;
+	}
+
+	public int getIndexSecaoUsuario() {
+		return indexSecaoUsuario;
+	}
+
+	public void setIndexSecaoUsuario(int indexSecaoUsuario) {
+		this.indexSecaoUsuario = indexSecaoUsuario;
+	}
+
+	public int getIndexSecaoFilme() {
+		return indexSecaoFilme;
+	}
+
+	public void setIndexSecaoFilme(int indexSecaoFilme) {
+		this.indexSecaoFilme = indexSecaoFilme;
+	}
+	
 }
