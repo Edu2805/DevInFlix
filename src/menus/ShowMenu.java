@@ -32,11 +32,14 @@ public class ShowMenu implements FuncoesDoMenu {
 		List<ContaPessoaFisica> cadastroContas = new ArrayList<>();
 		List<ContaPerfis> cadastroPerfis = new ArrayList<>();
 		Set<FilmeSugestaoUsuario> listaSugestoesDoUsuario = new LinkedHashSet<FilmeSugestaoUsuario>();
-		List<FilmePlataforma> escolhaFilmesDaLista = new ArrayList<>();
+		List<FilmePlataforma> escolhaFilmesDaListaUsuario = new ArrayList<>();
+		List<FilmePlataforma> escolhaFilmesDaPerfil = new ArrayList<>();
 		List<String> armazenaNomeUsuario = new ArrayList<>();
 		List<String> armazenaNomePerfil = new ArrayList<>();
-		List<String> armazenaNomeFilme = new ArrayList<>();
-		List<Integer> curtidasEDescurtidas = new ArrayList<>();
+		List<String> armazenaNomeFilmeUsuario = new ArrayList<>();
+		List<String> armazenaNomeFilmePerfil = new ArrayList<>();
+		List<Integer> curtidasEDescurtidasUsuario = new ArrayList<>();
+		List<Integer> curtidasEDescurtidasPerfil = new ArrayList<>();
 		List<String> armazenaDadosCadastrosUsuario = new ArrayList<>();
 		List<String> armazenaDadosCadastrosPerfil = new ArrayList<>();
 		List<String> armazenaDadosLogin = new ArrayList<>();
@@ -54,6 +57,7 @@ public class ShowMenu implements FuncoesDoMenu {
 		ContaPessoaFisica contaPrincipal = new ContaPessoaFisica(null, null, null, null, null, null, false, null);
 
 		int secaoUsuario = 0;
+		int secaoPerfil = 0;
 		int controlaListaUsuarios = 0;
 		int dia, mes, ano;
 		int escolhaFilme = 0;
@@ -444,7 +448,8 @@ public class ShowMenu implements FuncoesDoMenu {
 							secaoUsuario = i;
 							checkLoginPerfil = false;
 							checkLoginConta = true;
-
+							armazenaNomeUsuario.add(cadastroContas.get(i).getNomeConta());
+							
 							break;
 
 						} else {
@@ -458,10 +463,11 @@ public class ShowMenu implements FuncoesDoMenu {
 
 						if (cadastroPerfis.get(j).getChaveCadastroPerfil().equals(chaveLogin)) {
 
-							secaoUsuario = j;
+							secaoPerfil = j;
 							checkLoginConta = false;
 							checkLoginPerfil = true;
-
+							armazenaNomePerfil.add(cadastroPerfis.get(j).getNomePerfil());
+							
 							break;
 
 						} else {
@@ -508,12 +514,12 @@ public class ShowMenu implements FuncoesDoMenu {
 
 								// Abre lista para escolha do filme
 
-								escolhaFilmesDaLista.add(exterminadorDoFuturo);
-								escolhaFilmesDaLista.add(clubeDaLuta);
-								escolhaFilmesDaLista.add(oLoboDeWallStreet);
-								escolhaFilmesDaLista.add(ameliePoulain);
-								escolhaFilmesDaLista.add(crepusculo);
-								escolhaFilmesDaLista.add(harryPotter);
+								escolhaFilmesDaListaUsuario.add(exterminadorDoFuturo);
+								escolhaFilmesDaListaUsuario.add(clubeDaLuta);
+								escolhaFilmesDaListaUsuario.add(oLoboDeWallStreet);
+								escolhaFilmesDaListaUsuario.add(ameliePoulain);
+								escolhaFilmesDaListaUsuario.add(crepusculo);
+								escolhaFilmesDaListaUsuario.add(harryPotter);
 
 								boolean stopWhileNovoFilme = false;
 								// while (!stopWhileNovoFilme) {
@@ -525,12 +531,14 @@ public class ShowMenu implements FuncoesDoMenu {
 									escolhaFilme = sc.nextInt() - 1;
 									sc.nextLine();
 
-									contaPrincipal.escolhaDoFilme(escolhaFilmesDaLista, escolhaFilme);
-									generosMaisUsuarios.generosMaisAssistidosUsuario(escolhaFilmesDaLista, escolhaFilme,
+									contaPrincipal.escolhaDoFilme(escolhaFilmesDaListaUsuario, escolhaFilme);
+									generosMaisUsuarios.generosMaisAssistidosUsuario(escolhaFilmesDaListaUsuario, escolhaFilme,
 											secaoUsuario);
-									generosMaisPlataforma.generosMaisAssistidosPlataforma(escolhaFilmesDaLista,
+									generosMaisPlataforma.generosMaisAssistidosPlataforma(escolhaFilmesDaListaUsuario,
 											escolhaFilme, secaoUsuario);
 
+									String filmeEscolhidoUsuario = escolhaFilmesDaListaUsuario.get(escolhaFilme).getNome();
+									armazenaNomeFilmeUsuario.add(filmeEscolhidoUsuario);
 									quantidadeVezesEscolhaFilme++;
 
 //										System.out.println("\nDeseja escolher mais algum filme?1- SIM, 2- NÃO");
@@ -646,7 +654,8 @@ public class ShowMenu implements FuncoesDoMenu {
 
 										comentarios.fazerComentarioFilme();
 										comentarioUsuario = comentarios.getComentario();
-
+										armazenaComentariosUsuario.add(comentarioUsuario);
+										
 										break;
 									}
 
@@ -715,17 +724,17 @@ public class ShowMenu implements FuncoesDoMenu {
 
 								// Abre lista para escolha do filme
 
-								escolhaFilmesDaLista.add(exterminadorDoFuturo);
-								escolhaFilmesDaLista.add(clubeDaLuta);
-								escolhaFilmesDaLista.add(oLoboDeWallStreet);
-								escolhaFilmesDaLista.add(ameliePoulain);
-								escolhaFilmesDaLista.add(crepusculo);
-								escolhaFilmesDaLista.add(harryPotter);
+								escolhaFilmesDaPerfil.add(exterminadorDoFuturo);
+								escolhaFilmesDaPerfil.add(clubeDaLuta);
+								escolhaFilmesDaPerfil.add(oLoboDeWallStreet);
+								escolhaFilmesDaPerfil.add(ameliePoulain);
+								escolhaFilmesDaPerfil.add(crepusculo);
+								escolhaFilmesDaPerfil.add(harryPotter);
 
 								boolean stopWhileNovoFilme = false;
 								// while (!stopWhileNovoFilme) {
 
-								for (int k = secaoUsuario; k < cadastroPerfis.size(); k++) {
+								for (int k = secaoPerfil; k < cadastroPerfis.size(); k++) {
 
 									System.out.print("Olá " + cadastroPerfis.get(k).getNomePerfil()
 											+ ", escolha um dos filmes para você assistir: ");
@@ -734,11 +743,14 @@ public class ShowMenu implements FuncoesDoMenu {
 
 									// metodo escolha filme
 
-									contaSecundaria.escolhaDoFilme(escolhaFilmesDaLista, escolhaFilme);
-									generosMaisUsuarios.generosMaisAssistidosUsuario(escolhaFilmesDaLista, escolhaFilme,
-											secaoUsuario);
-									generosMaisPlataforma.generosMaisAssistidosPlataforma(escolhaFilmesDaLista,
-											escolhaFilme, secaoUsuario);
+									contaSecundaria.escolhaDoFilme(escolhaFilmesDaPerfil, escolhaFilme);
+									generosMaisUsuarios.generosMaisAssistidosUsuario(escolhaFilmesDaPerfil, escolhaFilme,
+											secaoPerfil);
+									generosMaisPlataforma.generosMaisAssistidosPlataforma(escolhaFilmesDaPerfil,
+											escolhaFilme, secaoPerfil);
+									
+									String filmeEscolhidoPerfil= escolhaFilmesDaPerfil.get(escolhaFilme).getNome();
+									armazenaNomeFilmePerfil.add(filmeEscolhidoPerfil);
 
 									quantidadeVezesEscolhaFilme++;
 
@@ -758,7 +770,7 @@ public class ShowMenu implements FuncoesDoMenu {
 									break;
 								}
 
-								for (int k = secaoUsuario; k < cadastroPerfis.size(); k++) {
+								for (int k = secaoPerfil; k < cadastroPerfis.size(); k++) {
 
 									exibeCampoSugestaoUsuario.likeDeslike(cadastroPerfis.get(k).getNomePerfil());
 
@@ -770,14 +782,14 @@ public class ShowMenu implements FuncoesDoMenu {
 								int escolha = 0;
 								boolean usuarioRecomenda = true;
 								boolean stopWhileRecomenda = true;
-								int controleEnunciado = secaoUsuario;
+								int controleEnunciado = secaoPerfil;
 
 								while (usuarioRecomenda) {
 
 									if (cadastroPerfis.size() > 1) {
 
 										for (int k = controlaListaUsuarios; k < cadastroPerfis.size(); k++) {
-											if (secaoUsuario == k) {
+											if (secaoPerfil == k) {
 												/**
 												 * Impede que o usuário vizualize ele mesmo para recomendar filmes,
 												 * permite que o indice dele nao seja exibido enquanto usa o sistema
@@ -785,7 +797,7 @@ public class ShowMenu implements FuncoesDoMenu {
 
 											} else {
 
-												if (controleEnunciado == secaoUsuario) {
+												if (controleEnunciado == secaoPerfil) {
 
 													System.out.println(
 															"----------------------------------------------------------------------------\n");
@@ -847,13 +859,14 @@ public class ShowMenu implements FuncoesDoMenu {
 
 								if (fazerComentario == 1) {
 
-									for (int k = secaoUsuario; k < cadastroPerfis.size(); k++) {
+									for (int k = secaoPerfil; k < cadastroPerfis.size(); k++) {
 
 										System.out.print("Digite o seu comentário: ");
 
 										comentarios.fazerComentarioFilme();
-										comentarioUsuario = comentarios.getComentario();
-
+										comentarioPerfil = comentarios.getComentario();
+										armazenaComentariosPerfil.add(comentarioPerfil);
+										
 										break;
 									}
 
@@ -956,7 +969,7 @@ public class ShowMenu implements FuncoesDoMenu {
 					}
 					
 				} else {
-					for (int j = secaoUsuario; j < cadastroPerfis.size(); j++) {
+					for (int j = secaoPerfil; j < cadastroPerfis.size(); j++) {
 						// if (cadastroPerfis.get(j).getChaveCadastroPerfil().equals(chaveLogin)) {
 
 						System.out.println(
@@ -973,52 +986,50 @@ public class ShowMenu implements FuncoesDoMenu {
 				comparaGenerosMaisPlataforma.generoMaisPlataforma();
 
 				System.out.println("\nFilmes curtidos e descurtidos pelos usuários\n");
-
-				for (int i = 0; i < cadastroContas.size(); i++) {
-
-					for (int j = 0; j < cadastroPerfis.size(); j++) {
-
-						if (cadastroContas.get(i).getChaveCadastroConta().equals(chaveLogin)) {
-
-							relatorioCurtidasDescurtidas.relatorioCurtidasConta(escolhaFilmesDaLista, cadastroContas,
-									escolhaFilme, secaoUsuario, secaoUsuario);
-
-							armazenaNomeUsuario.add(relatorioCurtidasDescurtidas.getNomeUsuario());
-							armazenaNomeFilme.add(relatorioCurtidasDescurtidas.getNomeFilme());
-							curtidasEDescurtidas.add(exibeCampoSugestaoUsuario.getCurtidasDescurtidas());
-
-							break;
-
-						} else if (cadastroPerfis.get(j).getChaveCadastroPerfil().equals(chaveLogin)) {
-
-							relatorioCurtidasDescurtidas.relatorioCurtidasPerfil(escolhaFilmesDaLista, cadastroPerfis,
-									escolhaFilme, secaoUsuario, secaoUsuario);
-
-							armazenaNomePerfil.add(relatorioCurtidasDescurtidas.getNomeUsuario());
-							armazenaNomeFilme.add(relatorioCurtidasDescurtidas.getNomeFilme());
-							curtidasEDescurtidas.add(exibeCampoSugestaoUsuario.getCurtidasDescurtidas());
-
-							break;
-
-						}
-					}
-				}
-
+				
 				for (int i = 0; i < armazenaNomeUsuario.size(); i++) {
-
-					if (curtidasEDescurtidas.get(i) == 1) {
+					
+					curtidasEDescurtidasUsuario.add(exibeCampoSugestaoUsuario.getCurtidasDescurtidas());
+					
+					if (curtidasEDescurtidasUsuario.get(i) == 1) {
 						System.out.print(armazenaNomeUsuario.get(i) + " deu like no ");
-					} else if (curtidasEDescurtidas.get(i) == 2) {
+					} else if (curtidasEDescurtidasUsuario.get(i) == 2) {
 						System.out.print(armazenaNomeUsuario.get(i) + " deu deslike no ");
 					} else {
 						// não exibe o usuário que não curtiu e nem descurtiu o filme
 
 					}
 
-					for (int j = i; j < armazenaNomeFilme.size(); j++) {
+					for (int j = i; j < armazenaNomeFilmeUsuario.size(); j++) {
 
-						if (curtidasEDescurtidas.get(i) >= 1 && curtidasEDescurtidas.get(i) <= 2) {
-							System.out.println("filme " + armazenaNomeFilme.get(j));
+						if (curtidasEDescurtidasUsuario.get(i) >= 1 && curtidasEDescurtidasUsuario.get(i) <= 2) {
+							System.out.println("filme " + armazenaNomeFilmeUsuario.get(j));
+							break;
+
+						} else {
+							break;
+						}
+					}
+					continue;
+				}
+				
+				for (int i = 0; i < armazenaNomePerfil.size(); i++) {
+
+					curtidasEDescurtidasPerfil.add(exibeCampoSugestaoUsuario.getCurtidasDescurtidas());
+					
+					if (curtidasEDescurtidasPerfil.get(i) == 1) {
+						System.out.print(armazenaNomePerfil.get(i) + " deu like no ");
+					} else if (curtidasEDescurtidasPerfil.get(i) == 2) {
+						System.out.print(armazenaNomePerfil.get(i) + " deu deslike no ");
+					} else {
+						// não exibe o usuário que não curtiu e nem descurtiu o filme
+
+					}
+
+					for (int j = i; j < armazenaNomeFilmePerfil.size(); j++) {
+
+						if (curtidasEDescurtidasPerfil.get(i) >= 1 && curtidasEDescurtidasPerfil.get(i) <= 2) {
+							System.out.println("filme " + armazenaNomeFilmePerfil.get(j));
 							break;
 
 						} else {
@@ -1032,30 +1043,34 @@ public class ShowMenu implements FuncoesDoMenu {
 
 				System.out.println("\nComentários dos usuários\n");
 
-				for (int i = 0; i < cadastroContas.size(); i++) {
-
-					for (int j = 0; j < cadastroPerfis.size(); j++) {
+				for (int i = 0; i < armazenaComentariosUsuario.size(); i++) {
 
 						if (comentarioUsuario != null) {
-							armazenaComentariosUsuario.add(comentarioUsuario);
-							comentarios.filmesComentadosConta(escolhaFilmesDaLista, cadastroContas,
+							
+							comentarios.filmesComentadosConta(escolhaFilmesDaListaUsuario, cadastroContas,
 									armazenaComentariosUsuario.get(i), escolhaFilmeUsuario, secaoUsuario);
 							break;
 						} else {
 							// não exibe nada
 						}
-
-						if (comentarioPerfil != null) {
-							armazenaComentariosPerfil.add(comentarioPerfil);
-							comentarios.filmesComentadosPerfil(escolhaFilmesDaLista, cadastroPerfis,
-									armazenaComentariosPerfil.get(j), escolhaFilmePerfil, secaoUsuario);
-							break;
-
-						} else {
-							// não exibe nada
-						}
-					}
+						
+					continue;
 				}
+				
+				for (int j = 0; j < armazenaComentariosPerfil.size(); j++) {
+					
+					if (comentarioPerfil != null) {
+						
+						comentarios.filmesComentadosPerfil(escolhaFilmesDaPerfil, cadastroPerfis,
+								armazenaComentariosPerfil.get(j), escolhaFilmePerfil, secaoPerfil);
+						break;
+
+					} else {
+						// não exibe nada
+					}
+					continue;
+				}
+				
 
 				// Zera os contadores da seção do usuário
 				generosMaisUsuarios.setContAcao(0);
@@ -1091,193 +1106,6 @@ public class ShowMenu implements FuncoesDoMenu {
 			}
 
 		}
-
-//					// Sugestão de filme usuário
-//
-//					exibeCampoSugestaoUsuario.sugestaoDoUsuario();
-//					String nomeSugestao = exibeCampoSugestaoUsuario.getNomeFilmeSugerido();
-//
-//					FilmeSugestaoUsuario sugestoesDeUsuarios = new FilmeSugestaoUsuario(nomeSugestao);
-//					listaSugestoesDoUsuario.add(sugestoesDeUsuarios);
-//					System.out.println("Filmes sugeridos pelos nossos usuários\n");
-//
-//					for (FilmeSugestaoUsuario filmePlataforma : listaSugestoesDoUsuario) {
-//						System.out.println(filmePlataforma.getNomeFilmeSugerido());
-//
-//					}
-//
-//					System.out.println(
-//							"\n----------------------------------------------------------------------------\n");
-//
-//					// Trata os generos mais assistidos pelos usuários
-//					acaoUsuario = generosMaisUsuarios.getContAcao();
-//					aventuraUsuario = generosMaisUsuarios.getContAventura();
-//					romanceUsuario = generosMaisUsuarios.getContRomance();
-//					cartoonUsuario = generosMaisUsuarios.getContCartoon();
-//					dramaUsuario = generosMaisUsuarios.getContDrama();
-//					documentarioUsuario = generosMaisUsuarios.getContDocumentario();
-//					independentesUsuario = generosMaisUsuarios.getContIndependentes();
-//					suspenseUsuario = generosMaisUsuarios.getContSuspense();
-//					outrosUsuario = generosMaisUsuarios.getContOutros();
-//
-//					// Trata os generos mais assistidos da plataforma
-//					acaoPlataforma = generosMaisPlataforma.getContAcao();
-//					aventuraPlataforma = generosMaisPlataforma.getContAventura();
-//					romancePlataforma = generosMaisPlataforma.getContRomance();
-//					cartoonPlataforma = generosMaisPlataforma.getContCartoon();
-//					dramaPlataforma = generosMaisPlataforma.getContDrama();
-//					documentarioPlataforma = generosMaisPlataforma.getContDocumentario();
-//					independentesPlataforma = generosMaisPlataforma.getContIndependentes();
-//					suspensePlataforma = generosMaisPlataforma.getContSuspense();
-//					outrosPlataforma = generosMaisPlataforma.getContOutros();
-//
-//					SomaGenerosUsuarios comparaGenerosMaisUsuarios = new SomaGenerosUsuarios(acaoUsuario,
-//							aventuraUsuario, romanceUsuario, cartoonUsuario, dramaUsuario, documentarioUsuario,
-//							independentesUsuario, suspenseUsuario, outrosUsuario);
-//					SomaGenerosPlataforma comparaGenerosMaisPlataforma = new SomaGenerosPlataforma(acaoPlataforma,
-//							aventuraPlataforma, romancePlataforma, cartoonPlataforma, dramaPlataforma,
-//							documentarioPlataforma, independentesPlataforma, suspensePlataforma, outrosPlataforma);
-//
-//					for (int i = 0; i < cadastroUsuarios.size(); i++) {
-//
-//						for (int j = 0; j < cadastroDeContas.size(); j++) {
-//
-//							if (cadastroUsuarios.get(i).getChaveCadastro().equals(chaveLogin)) {
-//
-//								System.out.println("Os generos mais assistidos por "
-//										+ cadastroUsuarios.get(i).getNomeCompleto() + " são:");
-//								comparaGenerosMaisUsuarios.generoMaisUsuario();
-//
-//								break;
-//
-//							} else if (cadastroDeContas.get(j).getChaveCadastro().equals(chaveLogin)) {
-//
-//								System.out.println("Os generos mais assistidos por " + cadastroDeContas.get(j).getNome()
-//										+ " são:");
-//								comparaGenerosMaisUsuarios.generoMaisUsuario();
-//
-//								break;
-//
-//							}
-//						}
-//					}
-//
-//					System.out.println("\nOs generos mais assistidos do DevInFlix são:");
-//					comparaGenerosMaisPlataforma.generoMaisPlataforma();
-//
-//					System.out.println("\nFilmes curtidos e descurtidos pelos usuários\n");
-//
-//					for (int i = 0; i < cadastroUsuarios.size(); i++) {
-//
-//						for (int j = 0; j < cadastroDeContas.size(); j++) {
-//
-//							if (cadastroUsuarios.get(i).getChaveCadastro().equals(chaveLogin)) {
-//
-//								relatorioCurtidasDescurtidas.relatorioCurtidasConta(escolhaFilmesDaLista,
-//										cadastroUsuarios, escolhaFilme, secaoUsuario, secaoUsuario);
-//
-//								armazenaNomeUsuario.add(relatorioCurtidasDescurtidas.getNomeUsuario());
-//								armazenaNomeFilme.add(relatorioCurtidasDescurtidas.getNomeFilme());
-//								curtidasEDescurtidas.add(exibeCampoSugestaoUsuario.getCurtidasDescurtidas());
-//
-//								break;
-//
-//							} else if (cadastroDeContas.get(j).getChaveCadastro().equals(chaveLogin)) {
-//
-//								relatorioCurtidasDescurtidas.relatorioCurtidasPerfil(escolhaFilmesDaLista,
-//										cadastroDeContas, escolhaFilme, secaoUsuario, secaoUsuario);
-//
-//								armazenaNomePerfil.add(relatorioCurtidasDescurtidas.getNomeUsuario());
-//								armazenaNomeFilme.add(relatorioCurtidasDescurtidas.getNomeFilme());
-//								curtidasEDescurtidas.add(exibeCampoSugestaoUsuario.getCurtidasDescurtidas());
-//
-//								break;
-//
-//							}
-//						}
-//					}
-//
-//					
-//					//Dois cenário com o for (trocar por armazenaNomePerfil
-//					for (int i = 0; i < armazenaNomeUsuario.size(); i++) {
-//
-//						if (curtidasEDescurtidas.get(i) == 1) {
-//							System.out.print(armazenaNomeUsuario.get(i) + " deu like no ");
-//						} else if (curtidasEDescurtidas.get(i) == 2) {
-//							System.out.print(armazenaNomeUsuario.get(i) + " deu deslike no ");
-//						} else {
-//							// não exibe o usuário que não curtiu e nem descurtiu o filme
-//
-//						}
-//
-//						for (int j = i; j < armazenaNomeFilme.size(); j++) {
-//
-//							if (curtidasEDescurtidas.get(i) >= 1 && curtidasEDescurtidas.get(i) <= 2) {
-//								System.out.println("filme " + armazenaNomeFilme.get(j));
-//								break;
-//
-//							} else {
-//								break;
-//							}
-//						}
-//						continue;
-//					}
-//
-//					System.out.println(
-//							"\n----------------------------------------------------------------------------\n");
-//
-//					System.out.println("\nComentários dos usuários\n");
-//
-//					for (int i = 0; i < cadastroUsuarios.size(); i++) {
-//
-//						for (int j = 0; j < cadastroDeContas.size(); j++) {
-//
-//							if (comentarioUsuario != null) {
-//								armazenaComentariosUsuario.add(comentarioUsuario);
-//								comentarios.filmesComentadosConta(escolhaFilmesDaLista, cadastroUsuarios,
-//										armazenaComentariosUsuario.get(i), escolhaFilmeUsuario, secaoUsuario);
-//								break;
-//							} else {
-//								// não exibe nada
-//							}
-//
-//							if (comentarioPerfil != null) {
-//								armazenaComentariosPerfil.add(comentarioPerfil);
-//								comentarios.filmesComentadosPerfil(escolhaFilmesDaLista, cadastroDeContas,
-//										armazenaComentariosPerfil.get(j), escolhaFilmePerfil, secaoUsuario);
-//								break;
-//
-//							} else {
-//								// não exibe nada
-//							}
-//						}
-//					}
-//
-//					// Zera os contadores da seção do usuário
-//					generosMaisUsuarios.setContAcao(0);
-//					generosMaisUsuarios.setContAventura(0);
-//					generosMaisUsuarios.setContCartoon(0);
-//					generosMaisUsuarios.setContDocumentario(0);
-//					generosMaisUsuarios.setContDrama(0);
-//					generosMaisUsuarios.setContIndependentes(0);
-//					generosMaisUsuarios.setContRomance(0);
-//					generosMaisUsuarios.setContSuspense(0);
-//					generosMaisUsuarios.setContOutros(0);
-//
-//					// secaoUsuario++;
-//
-//					// Verificar....
-//					controlaNumeroDePerfis = 0;
-//				} else {
-//					System.out.println(
-//							"Parece que houve um problema com o pagamento da mensalidade, retorne ao sistema e realize o pagamento.");
-//					break;
-//				}
-//			} else if (entrarMenu == 3) {
-//
-//				break;
-//			}
-//		}
 	}
 
 	// Futuro menu para impressao de relatórios

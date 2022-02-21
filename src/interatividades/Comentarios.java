@@ -30,11 +30,15 @@ public class Comentarios {
 	public void filmesComentadosConta(List<FilmePlataforma> filmes, List<ContaPessoaFisica> pessoaFisica,
 			String comentario, int escolhaFilme, int secaoUsuario) {
 
-		for (int i = secaoUsuario; i < pessoaFisica.size(); i++) {
+		for (int i = 0; i < pessoaFisica.size(); i++) {
 
 			System.out.print(pessoaFisica.get(i).getNomeConta() + " comentou sobre o filme "
 					+ filmes.get(escolhaFilme).getNome() + ": ");
 			System.out.println(comentario);
+			
+			if(secaoUsuario == i) {
+				break;
+			}
 
 		}
 	}
@@ -42,12 +46,15 @@ public class Comentarios {
 	public void filmesComentadosPerfil(List<FilmePlataforma> filmes, List<ContaPerfis> pessoaFisica, String comentario,
 			int escolhaFilme, int secaoUsuario) {
 
-		for (int i = secaoUsuario; i < pessoaFisica.size(); i++) {
+		for (int i = 0; i < pessoaFisica.size(); i++) {
 
 			System.out.print(pessoaFisica.get(i).getNomePerfil() + " comentou sobre o filme "
 					+ filmes.get(escolhaFilme).getNome() + ": ");
 			System.out.println(comentario);
 
+			if(secaoUsuario == i) {
+				break;
+			}
 		}
 	}
 
