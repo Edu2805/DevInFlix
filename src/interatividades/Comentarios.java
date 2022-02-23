@@ -11,6 +11,7 @@ import usuarios.ContaPessoaFisica;
 public class Comentarios {
 
 	private String comentario;
+	private String improprio;
 
 	public Comentarios() {
 
@@ -47,6 +48,15 @@ public class Comentarios {
 	public void setComentario(String comentario) {
 		this.comentario = comentario;
 	}
+
+	public String getImproprio() {
+		return improprio;
+	}
+
+	public void setImproprio(String improprio) {
+		this.improprio = improprio;
+	}
+	
 	
 	
 }
