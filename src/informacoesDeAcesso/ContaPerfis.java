@@ -22,10 +22,8 @@ public class ContaPerfis implements Recomendacao, EscolheFilme {
 	protected String chaveCadastroPerfil;
 	protected boolean statusPagamento;
 
-	
-
-	public ContaPerfis(String nome, String endereco, Period idadeUsuario, String eMail, String senha, String chaveCadastro,
-			boolean statusPagamento) {
+	public ContaPerfis(String nome, String endereco, Period idadeUsuario, String eMail, String senha,
+			String chaveCadastro, boolean statusPagamento) {
 		super();
 		this.nomePerfil = nome;
 		this.enderecoPerfil = endereco;
@@ -37,22 +35,18 @@ public class ContaPerfis implements Recomendacao, EscolheFilme {
 	}
 
 	public ContaPerfis() {
-		
+
 	}
-	
+
 	public void perfilUsuario(int idadeUsuario, String eMail, String senha, boolean statusPagamento) {
-				
-		
+
 	}
 
+	public boolean verificaLogin() {
 
-	public boolean verificaLogin () {
-		
-		
 		return statusPagamento;
 	}
-	
-	
+
 	@Override
 	public void usuarioRecomenda() {
 		Scanner sc = new Scanner(System.in);
@@ -164,11 +158,11 @@ public class ContaPerfis implements Recomendacao, EscolheFilme {
 					+ " para fazer uma nova recomendação!");
 			System.out.println("----------------------------------------------------------------------------");
 		}
-		
+
 	}
 
 	@Override
-	public int escolhaDoFilme(List<FilmePlataforma> filmes, int escolha) {
+	public int escolhaDoFilme(List<FilmePlataforma> filmes, int escolha, Period idade) {
 		Scanner sc = new Scanner(System.in);
 
 		int escolhaFilme = 0;
@@ -179,53 +173,57 @@ public class ContaPerfis implements Recomendacao, EscolheFilme {
 			int stopWhile = 0;
 			while (stopWhile == 0) {
 
-				try {
-					String name = filmes.get(escolha).getNome();
-					String description = filmes.get(escolha).getSinopse();
-					genreFilm = filmes.get(escolha).getGenero();
-					String adress = filmes.get(escolha).getLink();
+				if (idade.getYears() < filmes.get(escolha).getClassificacao()) {
 
-					System.out.println("Você escolheu " + name);
-					System.out.println("Link para assistir o filme: " + adress + "\n");
-					System.out.println("***\n****\n*****\n******\n*******\n**Filme Assistido**");
+					System.out.println("\nEste filme não é recomendado para a sua idade, escolha outro filme!\n");
 
 					stopWhile = 1;
-					escolhaFilme = 1;
-				} catch (Exception e) {
-					System.out.println("\nPor gentileza, digite o número correspondente aos filmes listados.\n");
+					return escolha = 0;
 
+				} else {
+
+					try {
+						String name = filmes.get(escolha).getNome();
+						String description = filmes.get(escolha).getSinopse();
+						genreFilm = filmes.get(escolha).getGenero();
+						String adress = filmes.get(escolha).getLink();
+
+						System.out.println("Você escolheu " + name);
+						System.out.println("Link para assistir o filme: " + adress + "\n");
+						System.out.println("***\n****\n*****\n******\n*******\n**Filme Assistido**");
+
+						stopWhile = 1;
+						escolhaFilme = 1;
+					} catch (Exception e) {
+						System.out.println("\nPor gentileza, digite o número correspondente aos filmes listados.\n");
+
+					}
 				}
 			}
 		}
 
 		return escolha;
 	}
-	
-	
+
 	public String geteMailPerfil() {
 		return eMailPerfil;
 	}
-
 
 	public void seteMailPerfil(String eMail) {
 		this.eMailPerfil = eMail;
 	}
 
-
 	public String getSenhaPerfil() {
 		return senhaPerfil;
 	}
-
 
 	public void setSenhaPerfil(String senha) {
 		this.senhaPerfil = senha;
 	}
 
-
 	public boolean isStatusPagamento() {
 		return statusPagamento;
 	}
-
 
 	public void setStatusPagamento(boolean statusPagamento) {
 		this.statusPagamento = statusPagamento;
@@ -263,6 +261,4 @@ public class ContaPerfis implements Recomendacao, EscolheFilme {
 		this.chaveCadastroPerfil = chaveCadastro;
 	}
 
-	
-	
 }

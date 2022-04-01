@@ -16,11 +16,11 @@ import interatividades.EscolheFilme;
 import interatividades.Recomendacao;
 
 public class ContaPessoaFisica extends Pessoa implements Recomendacao, EscolheFilme {
-	
 
 	public ContaPessoaFisica(String nomeCompleto, String enderecoCompleto, Period idade, String eMail, String senha,
 			String chaveCadastroConta, boolean statusPagamento, List<ContaPerfis> contaSecundaria) {
-		super(nomeCompleto, enderecoCompleto, idade, eMail, senha, chaveCadastroConta, statusPagamento, contaSecundaria);
+		super(nomeCompleto, enderecoCompleto, idade, eMail, senha, chaveCadastroConta, statusPagamento,
+				contaSecundaria);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -138,7 +138,7 @@ public class ContaPessoaFisica extends Pessoa implements Recomendacao, EscolheFi
 	}
 
 	@Override
-	public int escolhaDoFilme(List<FilmePlataforma> filmes, int escolha) {
+	public int escolhaDoFilme(List<FilmePlataforma> filmes, int escolha, Period idade) {
 		Scanner sc = new Scanner(System.in);
 
 		int escolhaFilme = 0;
@@ -146,24 +146,39 @@ public class ContaPessoaFisica extends Pessoa implements Recomendacao, EscolheFi
 
 		while (escolhaFilme == 0) {
 
+//			if(filmes.get(escolhaFilme).getClassificacao()) {
+//				
+//			}
+
 			int stopWhile = 0;
 			while (stopWhile == 0) {
+				
 
-				try {
-					String name = filmes.get(escolha).getNome();
-					String description = filmes.get(escolha).getSinopse();
-					genreFilm = filmes.get(escolha).getGenero();
-					String adress = filmes.get(escolha).getLink();
-
-					System.out.println("Você escolheu " + name);
-					System.out.println("Link para assistir o filme: " + adress + "\n");
-					System.out.println("***\n****\n*****\n******\n*******\n**Filme Assistido**");
-
+				if (idade.getYears() < filmes.get(escolha).getClassificacao()) {
+					
+					System.out.println("\nEste filme não é recomendado para a sua idade, escolha outro filme!\n");
+					
 					stopWhile = 1;
-					escolhaFilme = 1;
-				} catch (Exception e) {
-					System.out.println("\nPor gentileza, digite o número correspondente aos filmes listados.\n");
+					return escolha = 0;
+					
+				} else {
 
+					try {
+						String name = filmes.get(escolha).getNome();
+						String description = filmes.get(escolha).getSinopse();
+						genreFilm = filmes.get(escolha).getGenero();
+						String adress = filmes.get(escolha).getLink();
+
+						System.out.println("Você escolheu " + name);
+						System.out.println("Link para assistir o filme: " + adress + "\n");
+						System.out.println("***\n****\n*****\n******\n*******\n**Filme Assistido**");
+
+						stopWhile = 1;
+						escolhaFilme = 1;
+					} catch (Exception e) {
+						System.out.println("\nPor gentileza, digite o número correspondente aos filmes listados.\n");
+
+					}
 				}
 			}
 		}
@@ -174,11 +189,9 @@ public class ContaPessoaFisica extends Pessoa implements Recomendacao, EscolheFi
 	@Override
 	public String toString() {
 		return "PessoaFisica [nomeCompleto=" + nomeConta + ", enderecoCompleto=" + enderecoConta + ", idade="
-				+ idadeConta + ", eMail=" + eMailConta + ", senha=" + senhaConta + ", chaveCadastro=" + chaveCadastroConta
-				+ ", statusPagamento=" + statusPagamento + ", contaSecundaria=" + contaSecundaria
+				+ idadeConta + ", eMail=" + eMailConta + ", senha=" + senhaConta + ", chaveCadastro="
+				+ chaveCadastroConta + ", statusPagamento=" + statusPagamento + ", contaSecundaria=" + contaSecundaria
 				+ ", numeroPefisConta=" + numeroPefisConta + "]";
 	}
 
-	
-	
 }

@@ -133,23 +133,23 @@ public class ShowMenu implements FuncoesDoMenu {
 		Set<FilmePlataforma> listaDeFilmes = new LinkedHashSet<FilmePlataforma>();
 
 		FilmePlataforma exterminadorDoFuturo = new FilmePlataforma(1, "O Exterminador do Futuro",
-				"Robô disfarçado de humano ", Genero.ACAO.getDescricao(), "https://youtu.be/OFCE1ppomCg");
+				"Robô disfarçado de humano ", Genero.ACAO.getDescricao(), "https://youtu.be/OFCE1ppomCg", Long.valueOf(18));
 
 		FilmePlataforma clubeDaLuta = new FilmePlataforma(2, "Clube da luta", "Carinha que se revolta com o sistema ",
-				Genero.AVENTURA.getDescricao(), "https://youtu.be/Fs0-4NLSO2Y");
+				Genero.AVENTURA.getDescricao(), "https://youtu.be/Fs0-4NLSO2Y", Long.valueOf(18));
 
 		FilmePlataforma oLoboDeWallStreet = new FilmePlataforma(3, "O Lobo de Wall Street",
 				"Vendedor vendendo coisas que não existem ", Genero.ACAO.getDescricao(),
-				"https://youtu.be/PoSCUsNQVtw");
+				"https://youtu.be/PoSCUsNQVtw", Long.valueOf(18));
 
 		FilmePlataforma ameliePoulain = new FilmePlataforma(4, "Amelie Poulain", "Filme francês fofinho ",
-				Genero.ROMANCE.getDescricao(), "https://youtu.be/HUECWi5pX7o");
+				Genero.ROMANCE.getDescricao(), "https://youtu.be/HUECWi5pX7o", Long.valueOf(12));
 
 		FilmePlataforma crepusculo = new FilmePlataforma(5, "Crepúsculo", "Bela, o Lobo quente e o Vampiro gelado ",
-				Genero.ROMANCE.getDescricao(), "https://youtu.be/Ru8THEGdcEU");
+				Genero.ROMANCE.getDescricao(), "https://youtu.be/Ru8THEGdcEU", Long.valueOf(12));
 
 		FilmePlataforma harryPotter = new FilmePlataforma(6, "Harry Potter", "Pequeno bruxo que só se ferra ",
-				Genero.AVENTURA.getDescricao(), "https://youtu.be/VyHV0BRtdxo");
+				Genero.AVENTURA.getDescricao(), "https://youtu.be/VyHV0BRtdxo", Long.valueOf(12));
 
 		listaDeFilmes.add(exterminadorDoFuturo);
 		listaDeFilmes.add(clubeDaLuta);
@@ -511,10 +511,11 @@ public class ShowMenu implements FuncoesDoMenu {
 									String nomeFilme = filme.getNome();
 									String sinopse = filme.getSinopse();
 									String generoFilme = filme.getGenero();
+									Long classificacao = filme.getClassificacao();
 									indiceFilme++;
 
 									System.out.println("OPÇÃO " + (indiceFilme) + "- GENERO: " + generoFilme
-											+ ", FILME: " + nomeFilme + ", SINÓPSE: " + sinopse);
+											+ ", FILME: " + nomeFilme + ", SINÓPSE: " + sinopse + ", CLASSIFICAÇÃO: " + classificacao + " anos.");
 								}
 								System.out.println(
 										"--------------------------------------------------------------------------------------------------");
@@ -532,13 +533,25 @@ public class ShowMenu implements FuncoesDoMenu {
 								// while (!stopWhileNovoFilme) {
 
 								for (int k = secaoUsuario; k < cadastroContas.size(); k++) {
+									
+									while(true) {
 
-									System.out.print("Olá " + cadastroContas.get(k).getNomeConta()
-											+ ", escolha um dos filmes para você assistir: ");
-									escolhaFilme = sc.nextInt() - 1;
-									sc.nextLine();
-
-									contaPrincipal.escolhaDoFilme(escolhaFilmesDaListaUsuario, escolhaFilme);
+										System.out.print("Olá " + cadastroContas.get(k).getNomeConta()
+												+ ", escolha um dos filmes para você assistir: ");
+										
+										escolhaFilme = sc.nextInt() - 1;
+										sc.nextLine();
+	
+										//Botar classificacao como parametro do método escolha filme
+										int resultado = contaPrincipal.escolhaDoFilme(escolhaFilmesDaListaUsuario, escolhaFilme, cadastroContas.get(k).getIdadeConta());
+										
+										if(resultado == 0) {
+											
+										} else {
+											break;
+										}
+									}
+									
 									generosMaisUsuarios.generosMaisAssistidosUsuario(escolhaFilmesDaListaUsuario,
 											escolhaFilme, secaoUsuario);
 									generosMaisPlataforma.generosMaisAssistidosPlataforma(escolhaFilmesDaListaUsuario,
@@ -737,10 +750,11 @@ public class ShowMenu implements FuncoesDoMenu {
 									String nomeFilme = filme.getNome();
 									String sinopse = filme.getSinopse();
 									String generoFilme = filme.getGenero();
+									Long classificacao = filme.getClassificacao();
 									indiceFilme++;
 
 									System.out.println("OPÇÃO " + (indiceFilme) + "- GENERO: " + generoFilme
-											+ ", FILME: " + nomeFilme + ", SINÓPSE: " + sinopse);
+											+ ", FILME: " + nomeFilme + ", SINÓPSE: " + sinopse + ", CLASSIFICAÇÃO: " + classificacao + " anos.");
 								}
 								System.out.println(
 										"--------------------------------------------------------------------------------------------------");
@@ -758,16 +772,26 @@ public class ShowMenu implements FuncoesDoMenu {
 								// while (!stopWhileNovoFilme) {
 
 								for (int k = secaoPerfil; k < cadastroPerfis.size(); k++) {
+																		
+									while(true) {
 
-									System.out.print("Olá " + cadastroPerfis.get(k).getNomePerfil()
-											+ ", escolha um dos filmes para você assistir: ");
-									escolhaFilme = sc.nextInt() - 1;
-									sc.nextLine();
-
-									// metodo escolha filme
-
+										System.out.print("Olá " + cadastroPerfis.get(k).getNomePerfil()
+												+ ", escolha um dos filmes para você assistir: ");
+										escolhaFilme = sc.nextInt() - 1;
+										sc.nextLine();
+	
+										//Botar classificacao como parametro do método escolha filme
+										int resultado = contaSecundaria.escolhaDoFilme(escolhaFilmesDaListaPerfil, escolhaFilme, cadastroPerfis.get(k).getIdadePerfil());
+										
+										if(resultado == 0) {
+											
+										} else {
+											break;
+										}
+									}
+																		
 									// escolhaFilmePerfil.add(escolhaFilme);
-									contaSecundaria.escolhaDoFilme(escolhaFilmesDaListaPerfil, escolhaFilme);
+									contaSecundaria.escolhaDoFilme(escolhaFilmesDaListaPerfil, escolhaFilme, cadastroPerfis.get(k).getIdadePerfil());
 									generosMaisUsuarios.generosMaisAssistidosUsuario(escolhaFilmesDaListaPerfil,
 											escolhaFilme, secaoPerfil);
 									generosMaisPlataforma.generosMaisAssistidosPlataforma(escolhaFilmesDaListaPerfil,
