@@ -15,6 +15,7 @@ import dados.GenerosMaisAssistidosUsuarios;
 import dados.ModeracaoDeConteudo;
 import dados.SomaGenerosPlataforma;
 import dados.SomaGenerosUsuarios;
+import filmes.Episodio;
 import filmes.FilmePlataforma;
 import filmes.FilmeSugestaoUsuario;
 import financeiro.Financeiro;
@@ -127,7 +128,8 @@ public class ShowMenu implements FuncoesDoMenu {
 		LocalDate data = null;
 		Period idadeUsuarioConta = null;
 		Period idadeUsuarioPerfil = null;
-
+		
+		
 		System.out.println("################ DEVINFLIX ################");
 
 		Set<FilmePlataforma> listaDeFilmes = new LinkedHashSet<FilmePlataforma>();
@@ -1176,6 +1178,81 @@ public class ShowMenu implements FuncoesDoMenu {
 					}
 
 				}
+				
+				System.out.println("\n################ CADASTRO DE SÉRIES ################");
+				
+				Set<Episodio> listaEpisodios = new LinkedHashSet<Episodio>();
+				
+				System.out.println("\nDeseja cadastrar uma série?\n1-SIM\n2-NÃO");
+				
+				String nomeSerie = null;
+				int numeroEpisodio = 0;
+				String urlSerie = null;
+				LocalDate lancamento = null;
+				
+				int cadastraSerie = sc.nextInt();
+				
+				if(cadastraSerie == 1) {
+					
+					//nome, numero, url, data
+					while(true) {
+						
+						sc.nextLine();
+						System.out.print("\nDigite o nome da série: ");
+						nomeSerie = sc.nextLine();
+						
+						System.out.print("\nDigite o número do epsódio: ");
+						numeroEpisodio = sc.nextInt();
+						sc.nextLine();
+						
+						System.out.print("\nDigite a URL da série: ");
+						urlSerie = sc.nextLine();
+						
+						System.out.print("\nEntre com a data do lançamento: (dd/mm/aaaa): ");
+						String str = sc.nextLine();
+
+						String[] teste = str.split("[/]");
+						dia = Integer.parseInt(teste[0]);
+						mes = Integer.parseInt(teste[1]);
+						ano = Integer.parseInt(teste[2]);
+
+						lancamento = LocalDate.of(ano, mes, dia);
+
+						try {
+							DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+							data = LocalDate.parse(str, fmt);
+							dataFormatadaConta = data.format(fmt);
+
+							status = false;
+						} catch (Exception e) {
+							System.out.println("\nPor gentileza, digite sua data no formato que o sistema pede.\n");
+
+						}
+						
+						Episodio episodio = new Episodio(nomeSerie, numeroEpisodio, urlSerie, lancamento);
+						
+						listaEpisodios.add(episodio);
+						
+						System.out.println("\nDeseja cadastrar mais uma série?\n1-SIM\n2-NÃO");
+						int maisUmSerie = sc.nextInt();
+						
+						if(maisUmSerie != 1) {
+							
+							break;
+						}
+					}
+					
+				} else {
+					System.out.println("\nMuito Obrigado!");
+				}
+
+				System.out.println("\nLista de séries cadastradas\n");
+				
+				for (Episodio episodio : listaEpisodios) {
+					
+					System.out.println("Série: " + episodio.getNome() + ", número epsódio: " + episodio.getNumero() + ", URL: " + episodio.getUrl() + ", lançamento: " + episodio.getDataLancamento());
+				}
+				
 
 				// Zera os contadores da seção do usuário
 				generosMaisUsuarios.setContAcao(0);
