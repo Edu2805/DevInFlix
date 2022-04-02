@@ -18,7 +18,7 @@ public abstract class Pessoa {
 	protected String chaveCadastroConta;
 	protected boolean statusPagamento;
 	protected List<ContaPerfis> contaSecundaria;
-	protected final int numeroPefisConta = 3;
+	protected final int numeroPefisConta = 5;
 	
 	
 	public Pessoa(String nomeCompleto, String enderecoCompleto, Period idade, String eMail, String senha,

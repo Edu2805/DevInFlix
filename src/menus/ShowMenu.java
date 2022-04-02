@@ -163,7 +163,7 @@ public class ShowMenu implements FuncoesDoMenu {
 		while (!menuGeral) {
 
 			System.out.println("\n------------------------------------------------------------------\n");
-			System.out.println("######## FILMES E SÉRIES EM CARTAZ ########");
+			System.out.println("######## FILMES E SÉRIES EM CARTAZ A PARTIR DE R$ 9,90 POR MêS ########");
 
 			for (FilmePlataforma filme : listaDeFilmes) {
 				System.out.println("      " + filme.getNome() + "            ");
@@ -198,7 +198,7 @@ public class ShowMenu implements FuncoesDoMenu {
 				int controlaNumeroDePerfis = 1;
 
 				System.out.println(
-						"\nNo DevInFlix você pode cadastrar até três perfis de usuários, aproveite essa facilidade!\n");
+						"\nNo DevInFlix você pode cadastrar até cinco perfis de usuários, aproveite essa facilidade!\n");
 
 				while (!statusCadastroConta) {
 
@@ -289,7 +289,11 @@ public class ShowMenu implements FuncoesDoMenu {
 				}
 
 				System.out.print(
-						"\nDeseja cadastrar perfis para essa conta? Você pode cadastrar até três perfis\n1- Sim\n2- NÃO\n-->");
+						"\nVocê pode cadastrar até cinco perfis\n"
+						+ "\nCom somente 1 perfil cadastrado, seu plano irá custar R$ 9,90 por mês"
+						+ "\nDe dois a quatro perfis a sua mensalidade será de R$ 6,90"
+						+ "\nAcima de 5 perfis a sua mensalidade será de R$ 29,00\n"
+						+ "\nDeseja cadastrar perfis para essa conta?\n1- Sim\n2- NÃO\n-->");
 				int cadastroMaisUsuario = sc.nextInt();
 				sc.nextLine();
 
@@ -304,7 +308,7 @@ public class ShowMenu implements FuncoesDoMenu {
 							contaPrincipal = new ContaPessoaFisica(nomeConta, enderecoConta, idadeUsuarioConta,
 									enderecoDeEmailConta, senhaConta, chaveCadastroConta, pagamento, cadastroPerfis);
 
-							cadastroContas.add(contaPrincipal);
+							cadastroContas.add(contaPrincipal);													
 
 							break;
 
@@ -379,6 +383,7 @@ public class ShowMenu implements FuncoesDoMenu {
 								if (confirmacao == 1) {
 
 									controlaNumeroDePerfis++;
+									System.out.println(controlaNumeroDePerfis);
 
 									chaveCadastroPerfil = enderecoDeEmailPerfil.concat(senhaPerfil);
 
@@ -386,6 +391,7 @@ public class ShowMenu implements FuncoesDoMenu {
 											enderecoDeEmailPerfil, senhaPerfil, chaveCadastroPerfil, pagamento);
 									cadastroPerfis.add(contaSecundaria);
 
+									
 									System.out.println("Deseja cadastrar mais um perfil?\n1- SIM\n2- NÃO");
 									System.out.print("-->");
 									cadastroMaisUsuario = sc.nextInt();
@@ -403,7 +409,21 @@ public class ShowMenu implements FuncoesDoMenu {
 												pagamento, cadastroPerfis);
 
 										cadastroContas.add(contaPrincipal);
-
+										
+										if(controlaNumeroDePerfis <= 1) {
+											
+											System.out.println("\nSeu plano irá custar R$ 9,90 por mês\n");
+											
+										} else if(controlaNumeroDePerfis > 1 && controlaNumeroDePerfis <= 4) {
+											
+											System.out.println("\nSeu plano irá custar R$ 6,90 por mês\n");
+											
+										} else if(controlaNumeroDePerfis == 5) {
+											
+											System.out.println("\nSeu plano irá custar R$ 29,00 por mês\n");
+											
+										}
+										
 										statusCadastroPerfil = true;
 										break;
 									}
@@ -425,7 +445,20 @@ public class ShowMenu implements FuncoesDoMenu {
 
 						cadastroContas.add(contaPrincipal);
 						statusCadastroPerfil = true;
-
+						
+						if(controlaNumeroDePerfis <= 1) {
+							
+							System.out.println("\nSeu plano irá custar R$ 9,90 por mês\n");
+							
+						} else if(controlaNumeroDePerfis > 1 && controlaNumeroDePerfis <= 4) {
+							
+							System.out.println("\nSeu plano irá custar R$ 6,90 por mês\n");
+							
+						} else if(controlaNumeroDePerfis == 5) {
+							
+							System.out.println("\nSeu plano irá custar R$ 29,00 por mês\n");
+							
+						}
 					}
 				}
 
